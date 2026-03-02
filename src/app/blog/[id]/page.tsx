@@ -39,7 +39,10 @@ export default function BlogPostPage() {
                     <h1 className="text-4xl md:text-5xl font-bold mb-6" style={{ fontFamily: "'DM Serif Display', serif" }}>{post.title}</h1>
                     <div className="flex flex-wrap gap-6 text-sm text-muted-foreground mb-8">
                         <div className="flex items-center gap-2"><User className="w-4 h-4" /> {post.author}</div>
-                        <div className="flex items-center gap-2"><Calendar className="w-4 h-4" /> {new Date(post.created_at).toLocaleDateString()}</div>
+                        <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4" />
+                            {post.created_at ? new Date(post.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Recent Post"}
+                        </div>
                         <div className="flex items-center gap-2"><Clock className="w-4 h-4" /> {Math.ceil((post.content?.length || 0) / 800) || 3} min read</div>
                     </div>
 

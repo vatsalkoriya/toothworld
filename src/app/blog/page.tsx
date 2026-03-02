@@ -32,8 +32,12 @@ export default function BlogPage() {
         fetchPosts();
     }, []);
 
-    const formatDate = (iso: string) =>
-        new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    const formatDate = (iso: string) => {
+        if (!iso) return "Recent Post";
+        const date = new Date(iso);
+        if (isNaN(date.getTime())) return "Recent Post";
+        return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    };
 
     const featured = posts[0];
     const rest = posts.slice(1);
