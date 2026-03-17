@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock, User, ChevronLeft, ChevronRight, CheckCircle, Loader2, AlertCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -24,26 +24,27 @@ const MONTHS = ["January", "February", "March", "April", "May", "June", "July", 
 
 type Dentist = { _id: string; id: number; name: string; specialty: string; avatar: string; rating?: number; reviews?: number; };
 
-function CalendarPicker({ selected, onChange }: { selected: Date | null; onChange: (d: Date) => void }) {
+const CalendarPicker = memo(({ selected, onChange }: { selected: Date | null; onChange: (d: Date) => void }) => {
     const [view, setView] = useState(() => {
         const d = new Date();
         return { month: d.getMonth(), year: d.getFullYear() };
     });
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = useMemo(() => {
+        const d = new Date();
+        d.setHours(0, 0, 0, 0);
+        return d;
+    }, []);
 
-    const firstDay = new Date(view.year, view.month, 1).getDay();
-    const daysInMonth = new Date(view.year, view.month + 1, 0).getDate();
+    const firstDay = useMemo(() => new Date(view.year, view.month, 1).getDay(), [view.month, view.year]);
+    const daysInMonth = useMemo(() => new Date(view.year, view.month + 1, 0).getDate(), [view.month, view.year]);
 
-    const prev = () => {
-        if (view.month === 0) setView({ month: 11, year: view.year - 1 });
-        else setView({ ...view, month: view.month - 1 });
-    };
-    const next = () => {
-        if (view.month === 11) setView({ month: 0, year: view.year + 1 });
-        else setView({ ...view, month: view.month + 1 });
-    };
+    const prev = useCallback(() => {
+        setView(v => v.month === 0 ? { month: 11, year: v.year - 1 } : { ...v, month: v.month - 1 });
+    }, []);
+    const next = useCallback(() => {
+        setView(v => v.month === 11 ? { month: 0, year: v.year + 1 } : { ...v, month: v.month + 1 });
+    }, []);
 
     return (
         <div className="rounded-2xl border border-border p-4" style={{ background: "hsl(var(--card))" }}>
@@ -92,7 +93,8 @@ function CalendarPicker({ selected, onChange }: { selected: Date | null; onChang
             </div>
         </div>
     );
-}
+});
+CalendarPicker.displayName = "CalendarPicker";
 
 export default function BookAppointment() {
     const [step, setStep] = useState(1);
@@ -119,36 +121,32 @@ export default function BookAppointment() {
         fetchDentists();
     }, []);
 
-    useEffect(() => {
-        if (!selectedDentist || !selectedDate) {
-            setBookedSlots([]);
-            return;
-        }
-
+    const fetchUnavailableSlots = useCallback(async () => {
+        if (!selectedDentist || !selectedDate) return;
+        setLoadingSlots(true);
         const dayName = DAYS[selectedDate.getDay()];
         const dentistObj = dentists.find(d => d._id === selectedDentist);
         const dateString = selectedDate.toDateString();
 
-        const fetchUnavailableSlots = async () => {
-            setLoadingSlots(true);
-            const [blockedRes, appointmentsRes] = await Promise.all([
-                findMany("blocked_slots", { dentist_id: selectedDentist, day: dayName }),
-                findMany("appointments", {
-                    dentist: dentistObj?.name ?? "",
-                    date: dateString,
-                    status: { $in: ["pending", "confirmed"] }
-                }),
-            ]);
-            const blocked = (blockedRes.data || []).map((r: { slot: string }) => r.slot);
-            const booked = (appointmentsRes.data || []).map((r: { time: string }) => r.time);
-            setBookedSlots(Array.from(new Set([...blocked, ...booked])));
-            setLoadingSlots(false);
-        };
+        const [blockedRes, appointmentsRes] = await Promise.all([
+            findMany("blocked_slots", { dentist_id: selectedDentist, day: dayName }),
+            findMany("appointments", {
+                dentist: dentistObj?.name ?? "",
+                date: dateString,
+                status: { $in: ["pending", "confirmed"] }
+            }),
+        ]);
+        const blocked = (blockedRes.data || []).map((r: { slot: string }) => r.slot);
+        const booked = (appointmentsRes.data || []).map((r: { time: string }) => r.time);
+        setBookedSlots(Array.from(new Set([...blocked, ...booked])));
+        setLoadingSlots(false);
+    }, [selectedDentist, selectedDate, dentists]);
 
+    useEffect(() => {
         fetchUnavailableSlots();
         const interval = setInterval(fetchUnavailableSlots, 30000);
         return () => clearInterval(interval);
-    }, [selectedDentist, selectedDate, dentists]);
+    }, [fetchUnavailableSlots]);
 
     const canNext = () => {
         if (step === 1) return selectedDentist !== null;

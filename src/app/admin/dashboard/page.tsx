@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, memo, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import {
     LayoutDashboard, Calendar, Users, FileText,
     LogOut, ChevronRight, Plus, Trash2, Edit, Check, X,
     Clock, CheckCircle, TrendingUp, Stethoscope, Menu, Loader2, AlertCircle,
-    ImagePlus, ChevronLeft, ChevronRight as ChevronRightIcon, Image, Images
+    ImagePlus, ChevronLeft, ChevronRight as ChevronRightIcon, Image, Images,
+    Video, Play, Star
 } from "lucide-react";
 import { findMany, updateOne, insertOne, deleteOne, stringToObjectId } from "@/integrations/mongodb/utils";
 import { sendWhatsAppNotification } from "@/lib/whatsapp";
@@ -24,6 +26,14 @@ type BlogPost = {
     images: string[] | null;
 };
 type Dentist = { _id: string; id: number; name: string; specialty: string; avatar: string; };
+type VideoReview = {
+    _id: string;
+    clientName: string;
+    videoUrl: string;
+    category: string;
+    thumbnailUrl?: string;
+    created_at: string;
+};
 type BlockedSlots = Record<string, Record<string, string[]>>;
 
 const ALL_SLOTS = ["09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
@@ -49,13 +59,13 @@ function StatCard({ icon, label, value, sub, color }: { icon: React.ReactNode; l
 }
 
 // --- Dashboard ---
-function Dashboard({ appointments, loading }: { appointments: Appointment[]; loading: boolean }) {
-    const pending = appointments.filter(a => a.status === "pending").length;
-    const confirmed = appointments.filter(a => a.status === "confirmed").length;
-    const today = appointments.slice(0, 5);
+const Dashboard = memo(({ appointments, loading }: { appointments: Appointment[]; loading: boolean }) => {
+    const pending = useMemo(() => appointments.filter(a => a.status === "pending").length, [appointments]);
+    const confirmed = useMemo(() => appointments.filter(a => a.status === "confirmed").length, [appointments]);
+    const today = useMemo(() => appointments.slice(0, 5), [appointments]);
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 animate-fade-in">
             <div>
                 <h2 className="text-2xl font-bold mb-1" style={{ fontFamily: "'DM Serif Display', serif" }}>Dashboard Overview</h2>
                 <p className="text-sm text-muted-foreground">Welcome back! Here's what's happening at Tooth World today.</p>
@@ -115,27 +125,28 @@ function Dashboard({ appointments, loading }: { appointments: Appointment[]; loa
             </div>
         </div>
     );
-}
+});
+Dashboard.displayName = "Dashboard";
 
 // --- Appointments Manager ---
-function AppointmentsManager({ appointments, loading, onUpdateStatus }: {
+const AppointmentsManager = memo(({ appointments, loading, onUpdateStatus }: {
     appointments: Appointment[];
     loading: boolean;
     onUpdateStatus: (id: string, status: string) => Promise<void>;
-}) {
+}) => {
     const [filter, setFilter] = useState("all");
     const [updating, setUpdating] = useState<string | null>(null);
 
-    const filtered = filter === "all" ? appointments : appointments.filter(a => a.status === filter);
+    const filtered = useMemo(() => filter === "all" ? appointments : appointments.filter(a => a.status === filter), [appointments, filter]);
 
-    const handleUpdate = async (id: string, status: string) => {
+    const handleUpdate = useCallback(async (id: string, status: string) => {
         setUpdating(id);
         await onUpdateStatus(id, status);
         setUpdating(null);
-    };
+    }, [onUpdateStatus]);
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 animate-fade-in">
             <div>
                 <h2 className="text-2xl font-bold" style={{ fontFamily: "'DM Serif Display', serif" }}>Appointments</h2>
                 <p className="text-sm text-muted-foreground mt-1">
@@ -210,10 +221,11 @@ function AppointmentsManager({ appointments, loading, onUpdateStatus }: {
             )}
         </div>
     );
-}
+});
+AppointmentsManager.displayName = "AppointmentsManager";
 
 // --- Calendar & Slots Manager ---
-function CalendarManager({ dentists }: { dentists: Dentist[] }) {
+const CalendarManager = memo(({ dentists }: { dentists: Dentist[] }) => {
     const [selectedDentist, setSelectedDentist] = useState<string | null>(null);
     const [selectedDay, setSelectedDay] = useState<string>("Mon");
     const [blockedSlots, setBlockedSlots] = useState<BlockedSlots>({});
@@ -222,15 +234,9 @@ function CalendarManager({ dentists }: { dentists: Dentist[] }) {
 
     useEffect(() => {
         if (dentists.length > 0 && !selectedDentist) setSelectedDentist(dentists[0]._id);
-    }, [dentists]);
+    }, [dentists, selectedDentist]);
 
-    useEffect(() => {
-        fetchBlockedSlots(true);
-        const interval = setInterval(() => fetchBlockedSlots(false), 30000);
-        return () => clearInterval(interval);
-    }, []);
-
-    const fetchBlockedSlots = async (isInitial = false) => {
+    const fetchBlockedSlots = useCallback(async (isInitial = false) => {
         if (isInitial) setLoading(true);
         const { data } = await findMany("blocked_slots");
         if (data) {
@@ -244,7 +250,13 @@ function CalendarManager({ dentists }: { dentists: Dentist[] }) {
             setBlockedSlots(map);
         }
         setLoading(false);
-    };
+    }, []);
+
+    useEffect(() => {
+        fetchBlockedSlots(true);
+        const interval = setInterval(() => fetchBlockedSlots(false), 30000);
+        return () => clearInterval(interval);
+    }, [fetchBlockedSlots]);
 
     const toggleSlot = async (slot: string) => {
         if (!selectedDentist) return;
@@ -268,12 +280,12 @@ function CalendarManager({ dentists }: { dentists: Dentist[] }) {
         setToggling(null);
     };
 
-    const dentist = dentists.find(d => d._id === selectedDentist);
-    const currentBlocked = blockedSlots[String(selectedDentist)]?.[selectedDay] || [];
+    const dentist = useMemo(() => dentists.find(d => d._id === selectedDentist), [dentists, selectedDentist]);
+    const currentBlocked = useMemo(() => blockedSlots[String(selectedDentist)]?.[selectedDay] || [], [blockedSlots, selectedDentist, selectedDay]);
     const blockedCount = currentBlocked.length;
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 animate-fade-in">
             <div>
                 <h2 className="text-2xl font-bold" style={{ fontFamily: "'DM Serif Display', serif" }}>Calendar & Slots</h2>
                 <p className="text-sm text-muted-foreground mt-1">Block or unblock time slots for each dentist. Updates in real-time.</p>
@@ -386,10 +398,11 @@ function CalendarManager({ dentists }: { dentists: Dentist[] }) {
             ) : null}
         </div>
     );
-}
+});
+CalendarManager.displayName = "CalendarManager";
 
 // --- Blog Manager ---
-function BlogManager({ dentists }: { dentists: Dentist[] }) {
+const BlogManager = memo(({ dentists }: { dentists: Dentist[] }) => {
     const [posts, setPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
     const [creating, setCreating] = useState(false);
@@ -402,14 +415,14 @@ function BlogManager({ dentists }: { dentists: Dentist[] }) {
     const categories = ["Oral Health", "Patient Guide", "Cosmetic Dentistry", "Dental Implants", "Pediatric", "General"];
     const defaultAuthor = dentists[0]?.name || "Dr. Admin";
 
-    useEffect(() => { fetchPosts(); }, []);
-
-    const fetchPosts = async () => {
+    const fetchPosts = useCallback(async () => {
         setLoading(true);
         const { data } = await findMany("blog_posts", {}, { sort: { created_at: -1 } });
         if (data) setPosts(data as BlogPost[]);
         setLoading(false);
-    };
+    }, []);
+
+    useEffect(() => { fetchPosts(); }, [fetchPosts]);
 
     const handleCreate = async () => {
         if (!newPost.title.trim()) return;
@@ -458,7 +471,7 @@ function BlogManager({ dentists }: { dentists: Dentist[] }) {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 animate-fade-in">
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-2xl font-bold" style={{ fontFamily: "'DM Serif Display', serif" }}>Blog Management</h2>
@@ -573,16 +586,24 @@ function BlogManager({ dentists }: { dentists: Dentist[] }) {
             )}
         </div>
     );
-}
+});
+BlogManager.displayName = "BlogManager";
 
 // --- Gallery Manager ---
-function GalleryManager() {
+const GalleryManager = memo(() => {
     const [images, setImages] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(false);
     const [caption, setCaption] = useState("");
     const [url, setUrl] = useState("");
     const fileRef = useRef<HTMLInputElement>(null);
+
+    const fetchImages = useCallback(async () => {
+        setLoading(true);
+        const { data } = await findMany("gallery_images", {}, { sort: { created_at: -1 } });
+        if (data) setImages(data);
+        setLoading(false);
+    }, []);
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -595,19 +616,12 @@ function GalleryManager() {
         reader.readAsDataURL(file);
     };
 
-    useEffect(() => { fetchImages(); }, []);
-
-    const fetchImages = async () => {
-        setLoading(true);
-        const { data } = await findMany("gallery_images", {}, { sort: { created_at: -1 } });
-        if (data) setImages(data);
-        setLoading(false);
-    };
+    useEffect(() => { fetchImages(); }, [fetchImages]);
 
     const handleAdd = async () => {
         if (!url) return;
         setUploading(true);
-        await insertOne("gallery_images", { url, caption: caption.trim() || null });
+        await insertOne("gallery_images", { url, caption: caption.trim() || null, created_at: new Date().toISOString() });
         setUrl("");
         setCaption("");
         fetchImages();
@@ -620,7 +634,7 @@ function GalleryManager() {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 animate-fade-in">
             <div>
                 <h2 className="text-2xl font-bold" style={{ fontFamily: "'DM Serif Display', serif" }}>Gallery Manager</h2>
                 <p className="text-sm text-muted-foreground mt-1">Manage clinic photos shown on the public gallery page.</p>
@@ -681,7 +695,132 @@ function GalleryManager() {
             )}
         </div>
     );
-}
+});
+GalleryManager.displayName = "GalleryManager";
+
+// --- Reviews Manager ---
+const ReviewsManager = memo(() => {
+    const [reviews, setReviews] = useState<VideoReview[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [newReview, setNewReview] = useState({ clientName: "", videoUrl: "", category: "General", thumbnailUrl: "" });
+    const categories = ["Smile Makeover", "Dental Implants", "Orthodontics", "General", "Full Mouth Rehab"];
+
+    const fetchReviews = useCallback(async () => {
+        setLoading(true);
+        const { data } = await findMany("video_reviews", {}, { sort: { created_at: -1 } });
+        if (data) setReviews(data as VideoReview[]);
+        setLoading(false);
+    }, []);
+
+    useEffect(() => { fetchReviews(); }, [fetchReviews]);
+
+    const handleAdd = async () => {
+        if (!newReview.clientName || !newReview.videoUrl) return;
+        setSaving(true);
+        await insertOne("video_reviews", {
+            ...newReview,
+            created_at: new Date().toISOString()
+        });
+        setNewReview({ clientName: "", videoUrl: "", category: "General", thumbnailUrl: "" });
+        fetchReviews();
+        setSaving(false);
+    };
+
+    const handleDelete = async (id: string) => {
+        await deleteOne("video_reviews", { _id: id });
+        fetchReviews();
+    };
+
+    return (
+        <div className="space-y-6 animate-fade-in">
+            <div>
+                <h2 className="text-2xl font-bold" style={{ fontFamily: "'DM Serif Display', serif" }}>Video Reviews Manager</h2>
+                <p className="text-sm text-muted-foreground mt-1">Manage video testimonials from your patients. Organise by service category.</p>
+            </div>
+
+            <div className="card-dental p-6 border-2" style={{ borderColor: "hsl(var(--primary) / 0.25)" }}>
+                <h3 className="font-bold mb-4 flex items-center gap-2 text-sm">
+                    <Video className="w-4 h-4" style={{ color: "hsl(var(--primary))" }} /> Add New Video Review
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label className="block text-xs font-medium mb-1.5 opacity-70">Patient/Client Name</label>
+                        <input className="input-dental" placeholder="e.g. John Doe" 
+                            value={newReview.clientName} onChange={e => setNewReview({ ...newReview, clientName: e.target.value })} />
+                    </div>
+                    <div>
+                        <label className="block text-xs font-medium mb-1.5 opacity-70">Category</label>
+                        <select className="input-dental" value={newReview.category} 
+                            onChange={e => setNewReview({ ...newReview, category: e.target.value })}>
+                            {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                        </select>
+                    </div>
+                </div>
+                <div className="space-y-4">
+                    <div>
+                        <label className="block text-xs font-medium mb-1.5 opacity-70">Video URL (YouTube/Direct Link)</label>
+                        <input className="input-dental" placeholder="https://youtube.com/watch?v=..." 
+                            value={newReview.videoUrl} onChange={e => setNewReview({ ...newReview, videoUrl: e.target.value })} />
+                    </div>
+                    <div>
+                        <label className="block text-xs font-medium mb-1.5 opacity-70">Thumbnail URL (Optional)</label>
+                        <input className="input-dental" placeholder="https://..." 
+                            value={newReview.thumbnailUrl} onChange={e => setNewReview({ ...newReview, thumbnailUrl: e.target.value })} />
+                    </div>
+                    <button onClick={handleAdd} disabled={!newReview.clientName || !newReview.videoUrl || saving} className="btn-primary text-sm">
+                        {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+                        Add Review
+                    </button>
+                </div>
+            </div>
+
+            {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[1, 2, 3].map(i => <div key={i} className="aspect-video rounded-2xl bg-muted animate-pulse" />)}
+                </div>
+            ) : reviews.length === 0 ? (
+                <div className="card-dental p-10 text-center text-muted-foreground">
+                    <Video className="w-8 h-8 mx-auto mb-2 opacity-40" />
+                    <p className="text-sm">No video reviews yet. Add your first patient testimonial.</p>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {reviews.map(review => (
+                        <div key={review._id} className="card-dental overflow-hidden group">
+                            <div className="aspect-video relative bg-slate-100 flex items-center justify-center">
+                                {review.thumbnailUrl ? (
+                                    <img src={review.thumbnailUrl} alt={review.clientName} className="w-full h-full object-cover" />
+                                ) : (
+                                    <Video className="w-10 h-10 text-slate-300" />
+                                )}
+                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                    <a href={review.videoUrl} target="_blank" rel="noopener noreferrer" 
+                                       className="p-3 rounded-full bg-white text-primary hover:scale-110 transition-transform">
+                                        <Play className="w-5 h-5 fill-current" />
+                                    </a>
+                                </div>
+                                <div className="absolute top-2 left-2">
+                                    <span className="section-tag bg-white/90 backdrop-blur shadow-sm">{review.category}</span>
+                                </div>
+                            </div>
+                            <div className="p-4 border-t border-border flex items-center justify-between">
+                                <div>
+                                    <p className="font-bold text-sm">{review.clientName}</p>
+                                    <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">Patient Testimonial</p>
+                                </div>
+                                <button onClick={() => handleDelete(review._id)} className="p-2 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors">
+                                    <Trash2 className="w-4 h-4" />
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+});
+ReviewsManager.displayName = "ReviewsManager";
 
 const navItems = [
     { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard className="w-4 h-4" /> },
@@ -689,6 +828,7 @@ const navItems = [
     { id: "calendar", label: "Calendar & Slots", icon: <Calendar className="w-4 h-4" /> },
     { id: "blog", label: "Blog", icon: <FileText className="w-4 h-4" /> },
     { id: "gallery", label: "Gallery", icon: <Images className="w-4 h-4" /> },
+    { id: "reviews", label: "Reviews", icon: <Star className="w-4 h-4" /> },
 ];
 
 export default function AdminDashboard() {
@@ -810,6 +950,7 @@ export default function AdminDashboard() {
                     {activeTab === "calendar" && <CalendarManager dentists={dentists} />}
                     {activeTab === "blog" && <BlogManager dentists={dentists} />}
                     {activeTab === "gallery" && <GalleryManager />}
+                    {activeTab === "reviews" && <ReviewsManager />}
                 </main>
             </div>
         </div>

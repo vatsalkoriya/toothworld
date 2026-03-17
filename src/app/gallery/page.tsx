@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { findMany } from "@/integrations/mongodb/utils";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -24,17 +24,17 @@ export default function GalleryPage() {
     const [loading, setLoading] = useState(true);
     const [selected, setSelected] = useState<any | null>(null);
 
+    const fetchImages = useCallback(async () => {
+        const { data } = await findMany("gallery_images", {}, { sort: { created_at: -1 } });
+        if (data) setImages(data);
+        setLoading(false);
+    }, []);
+
     useEffect(() => {
         fetchImages();
         const interval = setInterval(fetchImages, 30000);
         return () => clearInterval(interval);
-    }, []);
-
-    const fetchImages = async () => {
-        const { data } = await findMany("gallery_images", {}, { sort: { created_at: -1 } });
-        if (data) setImages(data);
-        setLoading(false);
-    };
+    }, [fetchImages]);
 
     const displayImages = images.length > 0 ? images : DEMO_IMAGES;
 
@@ -78,6 +78,7 @@ export default function GalleryPage() {
                                             src={img.url}
                                             alt={img.caption || "Gallery image"}
                                             className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                            loading="lazy"
                                         />
                                         {img.caption && (
                                             <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/40 transition-all duration-300 flex items-end">

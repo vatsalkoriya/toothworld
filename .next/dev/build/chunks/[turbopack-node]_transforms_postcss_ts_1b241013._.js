@@ -3,8 +3,7 @@ module.exports = [
 
 __turbopack_context__.v((parentImport) => {
     return Promise.all([
-  "chunks/3362c_997ff301._.js",
-  "chunks/[root-of-the-server]__03bde1db._.js"
+  "chunks/[root-of-the-server]__200f37a0._.js"
 ].map((chunk) => __turbopack_context__.l(chunk))).then(() => {
         return parentImport("[turbopack-node]/transforms/postcss.ts { CONFIG => \"[project]/Desktop/smile-schedule-dash/postcss.config.js_.loader.mjs [postcss] (ecmascript)\" } [postcss] (ecmascript)");
     });

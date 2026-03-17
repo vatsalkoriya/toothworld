@@ -10,6 +10,7 @@ const navItems = [
   { label: "Services", to: "/services" },
   { label: "About", to: "/about" },
   { label: "Gallery", to: "/gallery" },
+  { label: "Reviews", to: "/reviews" },
   { label: "Book Appointment", to: "/book" },
   { label: "Blog", to: "/blog" },
 ];

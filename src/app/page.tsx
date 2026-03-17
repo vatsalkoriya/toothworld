@@ -42,7 +42,11 @@ export default function Home() {
             {/* Hero */}
             <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
                 <div className="absolute inset-0 z-0">
-                    <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=2070&auto=format&fit=crop" alt="Dental clinic" className="w-full h-full object-cover" />
+                    <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=2070&auto=format&fit=crop" 
+                        alt="Dental clinic" 
+                        className="w-full h-full object-cover"
+                        loading="eager"
+                        fetchPriority="high" />
                     <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, hsl(175 65% 15% / 0.75) 0%, hsl(210 25% 10% / 0.5) 100%)" }} />
                 </div>
 
