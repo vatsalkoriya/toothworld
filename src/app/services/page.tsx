@@ -114,7 +114,6 @@ const services = [
     title: "Digital Dentistry",
     desc: "Advanced diagnostics and precision tools.",
     features: ["Digital X-ray", "Intraoral camera", "Endo motor", "Chairside guidance"],
-    price: "From $90",
     images: [
       { src: "https://bocadelraypediatricdentistry.com/wp-content/uploads/2024/09/Laser-Dentistry-in-Delray-Beach.jpg" },
     ],
@@ -253,7 +252,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
                     <h3 className="font-bold text-xl" style={{ color: "hsl(var(--foreground))" }}>{service.title}</h3>
                     <span className="text-sm font-semibold flex-shrink-0 px-3 py-1 rounded-full"
                         style={{ background: "hsl(var(--primary-light))", color: "hsl(var(--primary))" }}>
-                        {service.price}
+                        
                     </span>
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed mb-4">{service.desc}</p>
