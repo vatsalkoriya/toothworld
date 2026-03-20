@@ -42,7 +42,7 @@ export default function ReviewsPage() {
     }), [reviews, filter, search]);
 
     const getYoutubeId = (url: string) => {
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?\/]*).*/;
         const match = url.match(regExp);
         return (match && match[2].length === 11) ? match[2] : null;
     };
@@ -144,7 +144,19 @@ export default function ReviewsPage() {
                                         <div className="card-dental p-0 overflow-hidden group shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border-border/50">
                                             <div className="aspect-video relative overflow-hidden bg-slate-100">
                                                 {finalThumb ? (
-                                                    <img src={finalThumb} alt={review.clientName} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+                                                    <img
+                                                        src={finalThumb}
+                                                        alt={review.clientName}
+                                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                                        loading="lazy"
+                                                        onError={(e) => {
+                                                            if (!youtubeId) return;
+                                                            const target = e.currentTarget;
+                                                            if (target.dataset.fallbackApplied) return;
+                                                            target.dataset.fallbackApplied = "true";
+                                                            target.src = `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+                                                        }}
+                                                    />
                                                 ) : (
                                                     <div className="w-full h-full flex items-center justify-center bg-secondary">
                                                         <Video className="w-12 h-12 text-muted-foreground opacity-20" />

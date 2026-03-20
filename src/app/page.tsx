@@ -15,10 +15,10 @@ const services = [
 ];
 
 const stats = [
-    { value: "5,000+", label: "Happy Patients" },
-    { value: "15+", label: "Years Experience" },
+    { value: "500+", label: "Happy Patients" },
+    { value: "10+", label: "Years Experience" },
     { value: "98%", label: "Satisfaction Rate" },
-    { value: "3", label: "Expert Dentists" },
+    { value: "1", label: "Expert Dentists" },
 ];
 
 const testimonials = [

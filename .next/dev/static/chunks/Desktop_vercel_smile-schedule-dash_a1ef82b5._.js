@@ -478,7 +478,7 @@ function Footer() {
                                                     lineNumber: 54,
                                                     columnNumber: 55
                                                 }, this),
-                                                " hello@dentacare.com"
+                                                " "
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/components/Footer.tsx",
@@ -554,7 +554,7 @@ function Footer() {
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            children: "Crafted with care for your brightest smile ✨"
+                            children: "Site by ROLLDECK"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/components/Footer.tsx",
                             lineNumber: 63,
@@ -617,6 +617,32 @@ class ObjectId {
     }
 }
 const API_BASE = "/api";
+async function readJsonOrError(response, action) {
+    const contentType = response.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+        const text = await response.text();
+        const snippet = text.replace(/\s+/g, " ").slice(0, 200);
+        return {
+            data: null,
+            error: `${action} failed: non-JSON response (${response.status}). ${snippet || "No response body."}`
+        };
+    }
+    try {
+        const json = await response.json();
+        if (!response.ok) {
+            return {
+                data: null,
+                error: json?.error || `${action} failed with status ${response.status}`
+            };
+        }
+        return json;
+    } catch (error) {
+        return {
+            data: null,
+            error: `${action} failed: invalid JSON response`
+        };
+    }
+}
 async function insertOne(collectionName, document) {
     try {
         const response = await fetch(`${API_BASE}/${collectionName}`, {
@@ -629,8 +655,7 @@ async function insertOne(collectionName, document) {
                 document
             })
         });
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Insert into ${collectionName}`);
     } catch (error) {
         console.error(`Error inserting into ${collectionName}:`, error);
         return {
@@ -651,8 +676,7 @@ async function findOne(collectionName, filter) {
                 filter
             })
         });
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Find in ${collectionName}`);
     } catch (error) {
         console.error(`Error finding in ${collectionName}:`, error);
         return {
@@ -669,8 +693,7 @@ async function findMany(collectionName, filter = {}, options = {}) {
             limit: (options.limit || 0).toString()
         });
         const response = await fetch(`${API_BASE}/${collectionName}?${query}`);
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Find many in ${collectionName}`);
     } catch (error) {
         console.error(`Error finding many in ${collectionName}:`, error);
         return {
@@ -691,8 +714,7 @@ async function updateOne(collectionName, filter, update) {
                 update
             })
         });
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Update in ${collectionName}`);
     } catch (error) {
         console.error(`Error updating in ${collectionName}:`, error);
         return {
@@ -712,8 +734,7 @@ async function deleteOne(collectionName, filter) {
                 filter
             })
         });
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Delete from ${collectionName}`);
     } catch (error) {
         console.error(`Error deleting from ${collectionName}:`, error);
         return {
@@ -810,7 +831,7 @@ function ReviewsPage() {
         search
     ]);
     const getYoutubeId = (url)=>{
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?\/]*).*/;
         const match = url.match(regExp);
         return match && match[2].length === 11 ? match[2] : null;
     };
@@ -1105,7 +1126,14 @@ function ReviewsPage() {
                                                     src: finalThumb,
                                                     alt: review.clientName,
                                                     className: "w-full h-full object-cover transition-transform duration-700 group-hover:scale-110",
-                                                    loading: "lazy"
+                                                    loading: "lazy",
+                                                    onError: (e)=>{
+                                                        if (!youtubeId) return;
+                                                        const target = e.currentTarget;
+                                                        if (target.dataset.fallbackApplied) return;
+                                                        target.dataset.fallbackApplied = "true";
+                                                        target.src = `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+                                                    }
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
                                                     lineNumber: 147,
@@ -1116,12 +1144,12 @@ function ReviewsPage() {
                                                         className: "w-12 h-12 text-muted-foreground opacity-20"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                        lineNumber: 150,
+                                                        lineNumber: 162,
                                                         columnNumber: 57
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                    lineNumber: 149,
+                                                    lineNumber: 161,
                                                     columnNumber: 53
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1135,17 +1163,17 @@ function ReviewsPage() {
                                                             className: "w-8 h-8 fill-current ml-1"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                            lineNumber: 162,
+                                                            lineNumber: 174,
                                                             columnNumber: 57
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                        lineNumber: 156,
+                                                        lineNumber: 168,
                                                         columnNumber: 53
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                    lineNumber: 155,
+                                                    lineNumber: 167,
                                                     columnNumber: 49
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1155,12 +1183,12 @@ function ReviewsPage() {
                                                         children: review.category
                                                     }, void 0, false, {
                                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                        lineNumber: 168,
+                                                        lineNumber: 180,
                                                         columnNumber: 53
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                    lineNumber: 167,
+                                                    lineNumber: 179,
                                                     columnNumber: 49
                                                 }, this)
                                             ]
@@ -1184,12 +1212,12 @@ function ReviewsPage() {
                                                             className: "w-3.5 h-3.5 fill-current text-amber-500"
                                                         }, j, false, {
                                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                            lineNumber: 177,
+                                                            lineNumber: 189,
                                                             columnNumber: 57
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                    lineNumber: 175,
+                                                    lineNumber: 187,
                                                     columnNumber: 49
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1200,7 +1228,7 @@ function ReviewsPage() {
                                                     children: review.clientName
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                    lineNumber: 180,
+                                                    lineNumber: 192,
                                                     columnNumber: 49
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1208,7 +1236,7 @@ function ReviewsPage() {
                                                     children: "Verified Patient Success"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                    lineNumber: 183,
+                                                    lineNumber: 195,
                                                     columnNumber: 49
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1222,7 +1250,7 @@ function ReviewsPage() {
                                                             })
                                                         }, void 0, false, {
                                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                            lineNumber: 186,
+                                                            lineNumber: 198,
                                                             columnNumber: 53
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -1236,25 +1264,25 @@ function ReviewsPage() {
                                                                     className: "w-3.5 h-3.5 transition-transform group-hover/link:translate-x-1"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                                    lineNumber: 188,
+                                                                    lineNumber: 200,
                                                                     columnNumber: 69
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                            lineNumber: 187,
+                                                            lineNumber: 199,
                                                             columnNumber: 53
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                                    lineNumber: 185,
+                                                    lineNumber: 197,
                                                     columnNumber: 49
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                            lineNumber: 174,
+                                            lineNumber: 186,
                                             columnNumber: 45
                                         }, this)
                                     ]
@@ -1297,7 +1325,7 @@ function ReviewsPage() {
                             children: "Join Our List of Happy Patients"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                            lineNumber: 204,
+                            lineNumber: 216,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1305,7 +1333,7 @@ function ReviewsPage() {
                             children: "At Tooth World, we don't just treat teeth — we change lives by restoring confidence and health. Ready to share your own success story?"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                            lineNumber: 207,
+                            lineNumber: 219,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1317,7 +1345,7 @@ function ReviewsPage() {
                                     children: "Book Your Consultation"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                    lineNumber: 211,
+                                    lineNumber: 223,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1326,29 +1354,29 @@ function ReviewsPage() {
                                     children: "Explore Treatments"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                                    lineNumber: 214,
+                                    lineNumber: 226,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                            lineNumber: 210,
+                            lineNumber: 222,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                    lineNumber: 203,
+                    lineNumber: 215,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                lineNumber: 202,
+                lineNumber: 214,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$components$2f$Footer$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/reviews/page.tsx",
-                lineNumber: 221,
+                lineNumber: 233,
                 columnNumber: 13
             }, this)
         ]

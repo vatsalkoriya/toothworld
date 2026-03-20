@@ -51,7 +51,7 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Contact</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2"><Phone className="w-4 h-4" style={{ color: "hsl(var(--primary-glow))" }} /> 083021 15319</li>
-              <li className="flex items-center gap-2"><Mail className="w-4 h-4" style={{ color: "hsl(var(--primary-glow))" }} /> hello@dentacare.com</li>
+              <li className="flex items-center gap-2"><Mail className="w-4 h-4" style={{ color: "hsl(var(--primary-glow))" }} /> </li>
               <li className="flex items-start gap-2"><MapPin className="w-4 h-4 mt-0.5" style={{ color: "hsl(var(--primary-glow))" }} /> shop no.43, Dr.maya meena, Tapovan Vihar Colony, CBI fatak, Jagatpura, Jaipur, Rajasthan 302017</li>
               <li className="flex items-center gap-2"><Clock className="w-4 h-4" style={{ color: "hsl(var(--primary-glow))" }} /> Mon–Sat: 10am – 1pm and evening 5pm - 8pm</li>
             </ul>
@@ -60,7 +60,7 @@ export default function Footer() {
 
         <div className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
           <p>© 2024 DentaCare. All rights reserved.</p>
-          <p>Crafted with care for your brightest smile ✨</p>
+          <p>Site by ROLLDECK</p>
         </div>
       </div>
     </footer>

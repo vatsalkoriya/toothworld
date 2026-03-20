@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { MapPin, Phone, Mail, Award, GraduationCap, Stethoscope, Heart, CheckCircle2 } from "lucide-react";
+import Image from "next/image";
 import { findMany } from "@/integrations/mongodb/utils";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
+import img1 from "../../assets/e6fa8df3-6c6a-4b50-bfc2-30c94abebe32.jpg"
 interface Dentist {
     _id: string;
     name: string;
@@ -37,8 +38,8 @@ export default function AboutPage() {
                             <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-blue-100 rounded-full blur-3xl -z-10" />
 
                             <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white group">
-                                <img
-                                    src="https://plus.unsplash.com/premium_photo-1738776254709-a8872157f87d?q=80&w=1074&auto=format&fit=crop"
+                                <Image
+                                    src={img1}
                                     alt="Doctor"
                                     className="w-full h-[600px] object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
@@ -63,7 +64,7 @@ export default function AboutPage() {
                                     Your Smile is in <span className="text-primary italic">Expert Hands.</span>
                                 </h1>
                                 <p className="text-lg text-slate-600 leading-relaxed">
-                                    With over 12 years of clinical excellence, <strong>{dentist?.name || "Dr. Maya Meena"}</strong> has established a reputation for precision and care in Jaipur.
+                                    With over 10 years of clinical excellence, <strong>{dentist?.name || "Dr. Maya Meena"}</strong> has established a reputation for precision and care in Jaipur.
                                     Specializing in {dentist?.specialty || "Advanced Cosmetic Dentistry"}, our clinic uses state-of-the-art
                                     technology to ensure every treatment is painless, efficient, and tailored to your needs.
                                 </p>
@@ -73,7 +74,7 @@ export default function AboutPage() {
                                 <div className="flex items-center gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-100 transition-hover hover:bg-white hover:shadow-md">
                                     <GraduationCap className="text-primary w-8 h-8" />
                                     <div>
-                                        <p className="text-sm font-bold text-slate-900 uppercase tracking-tighter">MDS Graduate</p>
+                                        <p className="text-sm font-bold text-slate-900 uppercase tracking-tighter">BDS Graduate</p>
                                         <p className="text-xs text-slate-500">Expert Specialist</p>
                                     </div>
                                 </div>

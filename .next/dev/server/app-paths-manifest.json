@@ -1,6 +1,8 @@
 {
   "/about/page": "app/about/page.js",
+  "/admin/page": "app/admin/page.js",
   "/api/[collection]/route": "app/api/[collection]/route.js",
+  "/blog/page": "app/blog/page.js",
   "/book/page": "app/book/page.js",
   "/gallery/page": "app/gallery/page.js",
   "/page": "app/page.js",

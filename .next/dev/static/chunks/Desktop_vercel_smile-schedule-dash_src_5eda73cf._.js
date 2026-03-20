@@ -478,7 +478,7 @@ function Footer() {
                                                     lineNumber: 54,
                                                     columnNumber: 55
                                                 }, this),
-                                                " hello@dentacare.com"
+                                                " "
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/components/Footer.tsx",
@@ -554,7 +554,7 @@ function Footer() {
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            children: "Crafted with care for your brightest smile ✨"
+                            children: "Site by ROLLDECK"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/components/Footer.tsx",
                             lineNumber: 63,
@@ -641,11 +641,11 @@ const services = [
 ];
 const stats = [
     {
-        value: "5,000+",
+        value: "500+",
         label: "Happy Patients"
     },
     {
-        value: "15+",
+        value: "10+",
         label: "Years Experience"
     },
     {
@@ -653,7 +653,7 @@ const stats = [
         label: "Satisfaction Rate"
     },
     {
-        value: "3",
+        value: "1",
         label: "Expert Dentists"
     }
 ];

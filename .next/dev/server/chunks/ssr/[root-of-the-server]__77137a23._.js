@@ -483,7 +483,7 @@ function Footer() {
                                                     lineNumber: 54,
                                                     columnNumber: 55
                                                 }, this),
-                                                " hello@dentacare.com"
+                                                " "
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/components/Footer.tsx",
@@ -559,7 +559,7 @@ function Footer() {
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            children: "Crafted with care for your brightest smile ✨"
+                            children: "Site by ROLLDECK"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/components/Footer.tsx",
                             lineNumber: 63,
@@ -592,12 +592,14 @@ __turbopack_context__.s([
     ()=>ServicesPage
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Desktop/vercel/smile-schedule-dash/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Desktop/vercel/smile-schedule-dash/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Desktop/vercel/smile-schedule-dash/node_modules/next/dist/client/app-dir/link.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__ = __turbopack_context__.i("[project]/Desktop/vercel/smile-schedule-dash/node_modules/lucide-react/dist/esm/icons/arrow-right.js [app-ssr] (ecmascript) <export default as ArrowRight>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__ = __turbopack_context__.i("[project]/Desktop/vercel/smile-schedule-dash/node_modules/lucide-react/dist/esm/icons/check.js [app-ssr] (ecmascript) <export default as Check>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$components$2f$Navbar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Desktop/vercel/smile-schedule-dash/src/components/Navbar.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$components$2f$Footer$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Desktop/vercel/smile-schedule-dash/src/components/Footer.tsx [app-ssr] (ecmascript)");
 "use client";
+;
 ;
 ;
 ;
@@ -614,7 +616,15 @@ const services = [
             "Cavity fillings",
             "Gum disease treatment"
         ],
-        price: "From $80"
+        price: "From $80",
+        images: [
+            {
+                src: "https://images.unsplash.com/photo-1626736985932-c0df2ae07a2e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8R2VuZXJhbCUyMERlbnRpc3RyeXxlbnwwfHwwfHx8MA%3D%3D"
+            },
+            {
+                src: "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fEdlbmVyYWwlMjBEZW50aXN0cnl8ZW58MHx8MHx8fDA%3D"
+            }
+        ]
     },
     {
         icon: "✨",
@@ -626,7 +636,15 @@ const services = [
             "Long-lasting results",
             "Safe & pain-free"
         ],
-        price: "From $250"
+        price: "From $250",
+        images: [
+            {
+                src: "https://images.unsplash.com/photo-1655807946138-811bb2340d34?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8VGVldGglMjBXaGl0ZW5pbmd8ZW58MHx8MHx8fDA%3D"
+            },
+            {
+                src: "https://plus.unsplash.com/premium_photo-1674179075503-1ae4d0c278dd?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            }
+        ]
     },
     {
         icon: "🔬",
@@ -638,7 +656,18 @@ const services = [
             "Retainers",
             "Monthly monitoring"
         ],
-        price: "From $1,800"
+        price: "From $1,800",
+        images: [
+            {
+                src: "https://plus.unsplash.com/premium_photo-1681997203595-e45e06abe034?q=80&w=1124&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                src: "https://plus.unsplash.com/premium_photo-1664298998038-d36d0d40f16b?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            },
+            {
+                src: "https://plus.unsplash.com/premium_photo-1677174625625-fb6f183af447?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            }
+        ]
     },
     {
         icon: "🏥",
@@ -650,55 +679,149 @@ const services = [
             "Full arch solutions",
             "Lifetime support"
         ],
-        price: "From $1,200"
+        price: "From $1,200",
+        images: [
+            {
+                src: "https://www.orthosquare.com/blogs/wp-content/uploads/2024/11/full-mouth-dental-implants-.jpg"
+            },
+            {
+                src: "https://www.orthosquare.com/blogs/wp-content/uploads/2024/11/full-mouth-dental-implants-.jpg"
+            }
+        ]
     },
     {
         icon: "🚨",
         title: "Emergency Care",
-        desc: "Same-day emergency appointments for urgent dental issues. We're here when you need us most.",
+        desc: "Same-day emergency appointments for urgent dental issues.",
         features: [
             "Same-day appointments",
             "Tooth pain relief",
             "Broken tooth repair",
             "Lost filling/crown"
         ],
-        price: "From $120"
+        price: "From $120",
+        images: [
+            {
+                src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqFbPgtIoszKKbsfJ7Z6G0zFOxhuQflVhCrA&s"
+            },
+            {
+                src: "https://smilemastersindia.com/upload/treatments/Emergency-Dental.jpg"
+            }
+        ]
     },
     {
         icon: "👶",
         title: "Pediatric Dentistry",
-        desc: "Gentle, fun dental care designed specifically for children, making every visit a positive experience.",
+        desc: "Gentle, fun dental care designed specifically for children.",
         features: [
             "First visit prep",
             "Sealants",
             "Fluoride treatment",
             "Kid-friendly environment"
         ],
-        price: "From $60"
+        price: "From $60",
+        images: [
+            {
+                src: "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=600&auto=format&fit=crop&q=60"
+            }
+        ]
     },
     {
         icon: "🌟",
         title: "Cosmetic Dentistry",
-        desc: "Transform your smile with veneers, bonding, and complete smile makeovers tailored to you.",
+        desc: "Transform your smile with veneers and makeovers.",
         features: [
             "Porcelain veneers",
             "Dental bonding",
             "Smile makeovers",
             "Gum contouring"
         ],
-        price: "From $400"
+        price: "From $400",
+        images: [
+            {
+                src: "https://www.bertagnollidental.com/wp-content/uploads/cosmetic-denistry-768x768.jpg"
+            }
+        ]
     },
     {
         icon: "🔧",
         title: "Restorative Dentistry",
-        desc: "Repair damaged teeth and restore full function with crowns, bridges, and dentures.",
+        desc: "Repair damaged teeth and restore full function.",
         features: [
             "Dental crowns",
             "Bridges",
             "Dentures",
             "Root canals"
         ],
-        price: "From $500"
+        price: "From $500",
+        images: [
+            {
+                src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZuseLUV_JSbv2Gc0H-30GRduMJPEMwk_KPQ&s"
+            },
+            {
+                src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFTezXgJC7rZ1Ja2aTsOxWXZ4BdInODSD71A&s"
+            },
+            {
+                src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr-vf1YV0T79VR4xGfgS3y59pq76LBE_4s6A&s"
+            }
+        ]
+    },
+    {
+        icon: "PS",
+        title: "Prosthodontic",
+        desc: "Precision restorations for function and aesthetics.",
+        features: [
+            "Crown & bridge",
+            "Complete denture",
+            "RPD",
+            "Bite restoration"
+        ],
+        price: "From $350",
+        images: [
+            {
+                src: "https://cdn.prod.website-files.com/66a3dc2cdbd9d880915faf16/66c149e255ae75fec48802aa_Dental-bridge-min.jpeg"
+            },
+            {
+                src: "https://www.robertmarcdental.com/hub_sites/schulman-robert/www/assets/uploads/images/Prosthodontic-case-photo.jpg"
+            }
+        ]
+    },
+    {
+        icon: "OS",
+        title: "Oral Surgery",
+        desc: "Safe surgical care for complex dental needs.",
+        features: [
+            "Extractions",
+            "Minor surgery",
+            "TMJ problems",
+            "Post-op care"
+        ],
+        price: "From $180",
+        images: [
+            {
+                src: "https://images.squarespace-cdn.com/content/v1/5634c78fe4b06374b2db01f7/127c5ed7-6bb8-4a01-8934-57087488599d/Oral+Surgery.jpg?format=2500w"
+            },
+            {
+                src: "https://fusiondentalcare.com/wp-content/uploads/2019/12/Fusion-Dental-Care-Raleigh-NC-Oral-Surgery-scaled.jpeg"
+            }
+        ]
+    },
+    {
+        icon: "DD",
+        title: "Digital Dentistry",
+        desc: "Advanced diagnostics and precision tools.",
+        features: [
+            "Digital X-ray",
+            "Intraoral camera",
+            "Endo motor",
+            "Chairside guidance"
+        ],
+        price: "From $90",
+        images: [
+            {
+                src: "https://bocadelraypediatricdentistry.com/wp-content/uploads/2024/09/Laser-Dentistry-in-Delray-Beach.jpg"
+            }
+        ]
     }
 ];
 const process = [
@@ -729,7 +852,7 @@ function ServicesPage() {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$components$2f$Navbar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                lineNumber: 77,
+                lineNumber: 144,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -745,7 +868,7 @@ function ServicesPage() {
                             children: "What We Offer"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                            lineNumber: 82,
+                            lineNumber: 149,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -757,7 +880,7 @@ function ServicesPage() {
                             children: "Complete Dental Services"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                            lineNumber: 83,
+                            lineNumber: 150,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -765,18 +888,18 @@ function ServicesPage() {
                             children: "From routine prevention to complex restorations — every service delivered with expertise and genuine care."
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                            lineNumber: 86,
+                            lineNumber: 153,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                    lineNumber: 81,
+                    lineNumber: 148,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                lineNumber: 80,
+                lineNumber: 147,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -785,133 +908,27 @@ function ServicesPage() {
                     className: "max-w-6xl mx-auto px-4 sm:px-6",
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "grid grid-cols-1 md:grid-cols-2 gap-6",
-                        children: services.map((s, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: `card-dental flex gap-6 animate-fade-up animate-delay-${i % 4 * 100}`,
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "text-5xl flex-shrink-0",
-                                        children: s.icon
-                                    }, void 0, false, {
-                                        fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                        lineNumber: 98,
-                                        columnNumber: 33
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "flex-1 min-w-0",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "flex items-start justify-between gap-4 mb-2",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                        className: "font-bold text-xl",
-                                                        style: {
-                                                            color: "hsl(var(--foreground))"
-                                                        },
-                                                        children: s.title
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                                        lineNumber: 101,
-                                                        columnNumber: 41
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        className: "text-sm font-semibold flex-shrink-0 px-3 py-1 rounded-full",
-                                                        style: {
-                                                            background: "hsl(var(--primary-light))",
-                                                            color: "hsl(var(--primary))"
-                                                        },
-                                                        children: s.price
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                                        lineNumber: 102,
-                                                        columnNumber: 41
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                                lineNumber: 100,
-                                                columnNumber: 37
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                className: "text-sm text-muted-foreground leading-relaxed mb-4",
-                                                children: s.desc
-                                            }, void 0, false, {
-                                                fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                                lineNumber: 107,
-                                                columnNumber: 37
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                                className: "grid grid-cols-2 gap-1.5 mb-4",
-                                                children: s.features.map((f)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                        className: "flex items-center gap-2 text-xs text-foreground/75",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
-                                                                className: "w-3.5 h-3.5 flex-shrink-0",
-                                                                style: {
-                                                                    color: "hsl(var(--primary))"
-                                                                }
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                                                lineNumber: 111,
-                                                                columnNumber: 49
-                                                            }, this),
-                                                            f
-                                                        ]
-                                                    }, f, true, {
-                                                        fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                                        lineNumber: 110,
-                                                        columnNumber: 45
-                                                    }, this))
-                                            }, void 0, false, {
-                                                fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                                lineNumber: 108,
-                                                columnNumber: 37
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                                href: "/book",
-                                                className: "inline-flex items-center gap-1 text-sm font-medium",
-                                                style: {
-                                                    color: "hsl(var(--primary))"
-                                                },
-                                                children: [
-                                                    "Book This Service ",
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
-                                                        className: "w-3.5 h-3.5"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                                        lineNumber: 118,
-                                                        columnNumber: 59
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                                lineNumber: 116,
-                                                columnNumber: 37
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                        lineNumber: 99,
-                                        columnNumber: 33
-                                    }, this)
-                                ]
-                            }, s.title, true, {
+                        children: services.map((s, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ServiceCard, {
+                                service: s,
+                                index: i
+                            }, s.title, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                lineNumber: 97,
+                                lineNumber: 164,
                                 columnNumber: 29
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                        lineNumber: 95,
+                        lineNumber: 162,
                         columnNumber: 21
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                    lineNumber: 94,
+                    lineNumber: 161,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                lineNumber: 93,
+                lineNumber: 160,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -930,7 +947,7 @@ function ServicesPage() {
                                     children: "How It Works"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                    lineNumber: 131,
+                                    lineNumber: 174,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -942,13 +959,13 @@ function ServicesPage() {
                                     children: "Your Care Journey"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                    lineNumber: 132,
+                                    lineNumber: 175,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                            lineNumber: 130,
+                            lineNumber: 173,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -968,7 +985,7 @@ function ServicesPage() {
                                             children: p.step
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                            lineNumber: 139,
+                                            lineNumber: 182,
                                             columnNumber: 33
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -979,7 +996,7 @@ function ServicesPage() {
                                             children: p.title
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                            lineNumber: 143,
+                                            lineNumber: 186,
                                             columnNumber: 33
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -987,29 +1004,29 @@ function ServicesPage() {
                                             children: p.desc
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                            lineNumber: 144,
+                                            lineNumber: 187,
                                             columnNumber: 33
                                         }, this)
                                     ]
                                 }, p.step, true, {
                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                    lineNumber: 138,
+                                    lineNumber: 181,
                                     columnNumber: 29
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                            lineNumber: 136,
+                            lineNumber: 179,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                    lineNumber: 129,
+                    lineNumber: 172,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                lineNumber: 128,
+                lineNumber: 171,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1030,7 +1047,7 @@ function ServicesPage() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                lineNumber: 156,
+                                lineNumber: 199,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1041,7 +1058,7 @@ function ServicesPage() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                lineNumber: 157,
+                                lineNumber: 200,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1055,7 +1072,7 @@ function ServicesPage() {
                                         children: "Ready to Get Started?"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                        lineNumber: 159,
+                                        lineNumber: 202,
                                         columnNumber: 29
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1063,7 +1080,7 @@ function ServicesPage() {
                                         children: "Book your appointment today. Our friendly team will guide you to the right service for your needs."
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                        lineNumber: 162,
+                                        lineNumber: 205,
                                         columnNumber: 29
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1080,46 +1097,215 @@ function ServicesPage() {
                                                 className: "w-4 h-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                                lineNumber: 168,
+                                                lineNumber: 211,
                                                 columnNumber: 50
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                        lineNumber: 165,
+                                        lineNumber: 208,
                                         columnNumber: 29
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                                lineNumber: 158,
+                                lineNumber: 201,
                                 columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                        lineNumber: 154,
+                        lineNumber: 197,
                         columnNumber: 21
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                    lineNumber: 153,
+                    lineNumber: 196,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                lineNumber: 152,
+                lineNumber: 195,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$components$2f$Footer$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-                lineNumber: 175,
+                lineNumber: 218,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
-        lineNumber: 76,
+        lineNumber: 143,
+        columnNumber: 9
+    }, this);
+}
+function ServiceCard({ service, index }) {
+    const [activeIndex, setActiveIndex] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (!service.images?.length) return;
+        const timer = setInterval(()=>{
+            setActiveIndex((prev)=>(prev + 1) % service.images.length);
+        }, 3500);
+        return ()=>clearInterval(timer);
+    }, [
+        service.images.length
+    ]);
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: `card-dental overflow-hidden animate-fade-up animate-delay-${index % 4 * 100}`,
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "relative aspect-[16/10] overflow-hidden rounded-2xl bg-slate-100",
+                children: [
+                    service.images.map((img, imgIndex)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                            src: img.src,
+                            alt: `${service.title} preview ${imgIndex + 1}`,
+                            className: `absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${imgIndex === activeIndex ? "opacity-100" : "opacity-0"}`,
+                            loading: "lazy"
+                        }, `${service.title}-${imgIndex}`, false, {
+                            fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                            lineNumber: 240,
+                            columnNumber: 21
+                        }, this)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "absolute left-4 bottom-4 flex items-center gap-2",
+                        children: service.images.map((_, dotIndex)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: `h-2 w-2 rounded-full transition-all ${dotIndex === activeIndex ? "bg-white shadow" : "bg-white/50"}`
+                            }, `${service.title}-dot-${dotIndex}`, false, {
+                                fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                                lineNumber: 250,
+                                columnNumber: 25
+                            }, this))
+                    }, void 0, false, {
+                        fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                        lineNumber: 248,
+                        columnNumber: 17
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "absolute top-4 left-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-sm font-semibold text-slate-900 shadow",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: "text-lg",
+                                children: service.icon
+                            }, void 0, false, {
+                                fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                                lineNumber: 257,
+                                columnNumber: 21
+                            }, this),
+                            service.title
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                        lineNumber: 256,
+                        columnNumber: 17
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                lineNumber: 238,
+                columnNumber: 13
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "pt-5",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex items-start justify-between gap-4 mb-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                className: "font-bold text-xl",
+                                style: {
+                                    color: "hsl(var(--foreground))"
+                                },
+                                children: service.title
+                            }, void 0, false, {
+                                fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                                lineNumber: 263,
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: "text-sm font-semibold flex-shrink-0 px-3 py-1 rounded-full",
+                                style: {
+                                    background: "hsl(var(--primary-light))",
+                                    color: "hsl(var(--primary))"
+                                },
+                                children: service.price
+                            }, void 0, false, {
+                                fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                                lineNumber: 264,
+                                columnNumber: 21
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                        lineNumber: 262,
+                        columnNumber: 17
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-sm text-muted-foreground leading-relaxed mb-4",
+                        children: service.desc
+                    }, void 0, false, {
+                        fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                        lineNumber: 269,
+                        columnNumber: 17
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                        className: "grid grid-cols-2 gap-1.5 mb-4",
+                        children: service.features.map((f)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                className: "flex items-center gap-2 text-xs text-foreground/75",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
+                                        className: "w-3.5 h-3.5 flex-shrink-0",
+                                        style: {
+                                            color: "hsl(var(--primary))"
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                                        lineNumber: 273,
+                                        columnNumber: 29
+                                    }, this),
+                                    f
+                                ]
+                            }, f, true, {
+                                fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                                lineNumber: 272,
+                                columnNumber: 25
+                            }, this))
+                    }, void 0, false, {
+                        fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                        lineNumber: 270,
+                        columnNumber: 17
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                        href: "/book",
+                        className: "inline-flex items-center gap-1 text-sm font-medium",
+                        style: {
+                            color: "hsl(var(--primary))"
+                        },
+                        children: [
+                            "Book This Service ",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
+                                className: "w-3.5 h-3.5"
+                            }, void 0, false, {
+                                fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                                lineNumber: 280,
+                                columnNumber: 39
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                        lineNumber: 278,
+                        columnNumber: 17
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+                lineNumber: 261,
+                columnNumber: 13
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/services/page.tsx",
+        lineNumber: 237,
         columnNumber: 9
     }, this);
 }

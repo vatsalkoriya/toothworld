@@ -731,6 +731,12 @@ const ReviewsManager = memo(() => {
         await deleteOne("video_reviews", { _id: id });
         fetchReviews();
     };
+    
+    const getYoutubeId = (url: string) => {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?\/]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
+    };
 
     return (
         <div className="space-y-6 animate-fade-in">
@@ -786,35 +792,50 @@ const ReviewsManager = memo(() => {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {reviews.map(review => (
-                        <div key={review._id} className="card-dental overflow-hidden group">
-                            <div className="aspect-video relative bg-slate-100 flex items-center justify-center">
-                                {review.thumbnailUrl ? (
-                                    <img src={review.thumbnailUrl} alt={review.clientName} className="w-full h-full object-cover" />
-                                ) : (
-                                    <Video className="w-10 h-10 text-slate-300" />
-                                )}
-                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                                    <a href={review.videoUrl} target="_blank" rel="noopener noreferrer" 
-                                       className="p-3 rounded-full bg-white text-primary hover:scale-110 transition-transform">
-                                        <Play className="w-5 h-5 fill-current" />
-                                    </a>
+                    {reviews.map(review => {
+                        const youtubeId = getYoutubeId(review.videoUrl);
+                        const finalThumb = review.thumbnailUrl || (youtubeId ? `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg` : null);
+                        return (
+                            <div key={review._id} className="card-dental overflow-hidden group">
+                                <div className="aspect-video relative bg-slate-100 flex items-center justify-center">
+                                    {finalThumb ? (
+                                        <img
+                                            src={finalThumb}
+                                            alt={review.clientName}
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => {
+                                                if (!youtubeId) return;
+                                                const target = e.currentTarget;
+                                                if (target.dataset.fallbackApplied) return;
+                                                target.dataset.fallbackApplied = "true";
+                                                target.src = `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+                                            }}
+                                        />
+                                    ) : (
+                                        <Video className="w-10 h-10 text-slate-300" />
+                                    )}
+                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                        <a href={review.videoUrl} target="_blank" rel="noopener noreferrer" 
+                                           className="p-3 rounded-full bg-white text-primary hover:scale-110 transition-transform">
+                                            <Play className="w-5 h-5 fill-current" />
+                                        </a>
+                                    </div>
+                                    <div className="absolute top-2 left-2">
+                                        <span className="section-tag bg-white/90 backdrop-blur shadow-sm">{review.category}</span>
+                                    </div>
                                 </div>
-                                <div className="absolute top-2 left-2">
-                                    <span className="section-tag bg-white/90 backdrop-blur shadow-sm">{review.category}</span>
+                                <div className="p-4 border-t border-border flex items-center justify-between">
+                                    <div>
+                                        <p className="font-bold text-sm">{review.clientName}</p>
+                                        <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">Patient Testimonial</p>
+                                    </div>
+                                    <button onClick={() => handleDelete(review._id)} className="p-2 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors">
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
                                 </div>
                             </div>
-                            <div className="p-4 border-t border-border flex items-center justify-between">
-                                <div>
-                                    <p className="font-bold text-sm">{review.clientName}</p>
-                                    <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">Patient Testimonial</p>
-                                </div>
-                                <button onClick={() => handleDelete(review._id)} className="p-2 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors">
-                                    <Trash2 className="w-4 h-4" />
-                                </button>
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
         </div>

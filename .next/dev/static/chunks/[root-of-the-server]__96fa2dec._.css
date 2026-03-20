@@ -689,6 +689,10 @@ h1, h2, h3, h4 {
   bottom: 0;
 }
 
+.bottom-4 {
+  bottom: 1rem;
+}
+
 .left-0 {
   left: 0;
 }
@@ -1007,6 +1011,10 @@ h1, h2, h3, h4 {
 
 .hidden {
   display: none;
+}
+
+.aspect-\[16\/10\] {
+  aspect-ratio: 16 / 10;
 }
 
 .aspect-\[16\/9\] {
@@ -2122,6 +2130,10 @@ h1, h2, h3, h4 {
   background-color: #fff3;
 }
 
+.bg-white\/50 {
+  background-color: #ffffff80;
+}
+
 .bg-white\/90 {
   background-color: #ffffffe6;
 }
@@ -2783,6 +2795,10 @@ h1, h2, h3, h4 {
   opacity: .1;
 }
 
+.opacity-100 {
+  opacity: 1;
+}
+
 .opacity-20 {
   opacity: .2;
 }
@@ -2809,6 +2825,12 @@ h1, h2, h3, h4 {
 
 .opacity-90 {
   opacity: .9;
+}
+
+.shadow {
+  --tw-shadow: 0 1px 3px 0 #0000001a, 0 1px 2px -1px #0000001a;
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .shadow-2xl {

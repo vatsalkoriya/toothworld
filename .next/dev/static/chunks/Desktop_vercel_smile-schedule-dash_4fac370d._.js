@@ -31,6 +31,32 @@ class ObjectId {
     }
 }
 const API_BASE = "/api";
+async function readJsonOrError(response, action) {
+    const contentType = response.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+        const text = await response.text();
+        const snippet = text.replace(/\s+/g, " ").slice(0, 200);
+        return {
+            data: null,
+            error: `${action} failed: non-JSON response (${response.status}). ${snippet || "No response body."}`
+        };
+    }
+    try {
+        const json = await response.json();
+        if (!response.ok) {
+            return {
+                data: null,
+                error: json?.error || `${action} failed with status ${response.status}`
+            };
+        }
+        return json;
+    } catch (error) {
+        return {
+            data: null,
+            error: `${action} failed: invalid JSON response`
+        };
+    }
+}
 async function insertOne(collectionName, document) {
     try {
         const response = await fetch(`${API_BASE}/${collectionName}`, {
@@ -43,8 +69,7 @@ async function insertOne(collectionName, document) {
                 document
             })
         });
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Insert into ${collectionName}`);
     } catch (error) {
         console.error(`Error inserting into ${collectionName}:`, error);
         return {
@@ -65,8 +90,7 @@ async function findOne(collectionName, filter) {
                 filter
             })
         });
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Find in ${collectionName}`);
     } catch (error) {
         console.error(`Error finding in ${collectionName}:`, error);
         return {
@@ -83,8 +107,7 @@ async function findMany(collectionName, filter = {}, options = {}) {
             limit: (options.limit || 0).toString()
         });
         const response = await fetch(`${API_BASE}/${collectionName}?${query}`);
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Find many in ${collectionName}`);
     } catch (error) {
         console.error(`Error finding many in ${collectionName}:`, error);
         return {
@@ -105,8 +128,7 @@ async function updateOne(collectionName, filter, update) {
                 update
             })
         });
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Update in ${collectionName}`);
     } catch (error) {
         console.error(`Error updating in ${collectionName}:`, error);
         return {
@@ -126,8 +148,7 @@ async function deleteOne(collectionName, filter) {
                 filter
             })
         });
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Delete from ${collectionName}`);
     } catch (error) {
         console.error(`Error deleting from ${collectionName}:`, error);
         return {

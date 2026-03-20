@@ -1,10 +1,11 @@
-import { MongoClient } from 'mongodb';
+import "dotenv/config";
+import { MongoClient } from "mongodb";
 
-if (!process.env.VITE_MONGODB_URI) {
-    throw new Error('Please add your Mongo URI to .env');
+const uri = process.env.VITE_MONGODB_URI || process.env.MONGODB_URI;
+if (!uri) {
+    throw new Error("Please add your Mongo URI to .env (VITE_MONGODB_URI or MONGODB_URI).");
 }
 
-const uri = process.env.VITE_MONGODB_URI;
 const options = {};
 
 let client;

@@ -31,6 +31,32 @@ class ObjectId {
     }
 }
 const API_BASE = "/api";
+async function readJsonOrError(response, action) {
+    const contentType = response.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+        const text = await response.text();
+        const snippet = text.replace(/\s+/g, " ").slice(0, 200);
+        return {
+            data: null,
+            error: `${action} failed: non-JSON response (${response.status}). ${snippet || "No response body."}`
+        };
+    }
+    try {
+        const json = await response.json();
+        if (!response.ok) {
+            return {
+                data: null,
+                error: json?.error || `${action} failed with status ${response.status}`
+            };
+        }
+        return json;
+    } catch (error) {
+        return {
+            data: null,
+            error: `${action} failed: invalid JSON response`
+        };
+    }
+}
 async function insertOne(collectionName, document) {
     try {
         const response = await fetch(`${API_BASE}/${collectionName}`, {
@@ -43,8 +69,7 @@ async function insertOne(collectionName, document) {
                 document
             })
         });
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Insert into ${collectionName}`);
     } catch (error) {
         console.error(`Error inserting into ${collectionName}:`, error);
         return {
@@ -65,8 +90,7 @@ async function findOne(collectionName, filter) {
                 filter
             })
         });
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Find in ${collectionName}`);
     } catch (error) {
         console.error(`Error finding in ${collectionName}:`, error);
         return {
@@ -83,8 +107,7 @@ async function findMany(collectionName, filter = {}, options = {}) {
             limit: (options.limit || 0).toString()
         });
         const response = await fetch(`${API_BASE}/${collectionName}?${query}`);
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Find many in ${collectionName}`);
     } catch (error) {
         console.error(`Error finding many in ${collectionName}:`, error);
         return {
@@ -105,8 +128,7 @@ async function updateOne(collectionName, filter, update) {
                 update
             })
         });
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Update in ${collectionName}`);
     } catch (error) {
         console.error(`Error updating in ${collectionName}:`, error);
         return {
@@ -126,8 +148,7 @@ async function deleteOne(collectionName, filter) {
                 filter
             })
         });
-        const result = await response.json();
-        return result;
+        return await readJsonOrError(response, `Delete from ${collectionName}`);
     } catch (error) {
         console.error(`Error deleting from ${collectionName}:`, error);
         return {
@@ -237,7 +258,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2
 var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$lib$2f$whatsapp$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Desktop/vercel/smile-schedule-dash/src/lib/whatsapp.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$hooks$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Desktop/vercel/smile-schedule-dash/src/hooks/use-toast.ts [app-client] (ecmascript)");
 ;
-var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature(), _s2 = __turbopack_context__.k.signature(), _s3 = __turbopack_context__.k.signature(), _s4 = __turbopack_context__.k.signature(), _s5 = __turbopack_context__.k.signature();
+var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature(), _s2 = __turbopack_context__.k.signature(), _s3 = __turbopack_context__.k.signature(), _s4 = __turbopack_context__.k.signature(), _s5 = __turbopack_context__.k.signature(), _s6 = __turbopack_context__.k.signature();
 "use client";
 ;
 ;
@@ -280,7 +301,7 @@ function StatCard({ icon, label, value, sub, color }) {
                             children: label
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                            lineNumber: 48,
+                            lineNumber: 49,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -291,7 +312,7 @@ function StatCard({ icon, label, value, sub, color }) {
                             children: value
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                            lineNumber: 49,
+                            lineNumber: 50,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -299,13 +320,13 @@ function StatCard({ icon, label, value, sub, color }) {
                             children: sub
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                            lineNumber: 50,
+                            lineNumber: 51,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                    lineNumber: 47,
+                    lineNumber: 48,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -316,29 +337,46 @@ function StatCard({ icon, label, value, sub, color }) {
                     children: icon
                 }, void 0, false, {
                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                    lineNumber: 52,
+                    lineNumber: 53,
                     columnNumber: 17
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-            lineNumber: 46,
+            lineNumber: 47,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-        lineNumber: 45,
+        lineNumber: 46,
         columnNumber: 9
     }, this);
 }
 _c = StatCard;
 // --- Dashboard ---
-function Dashboard({ appointments, loading }) {
-    const pending = appointments.filter((a)=>a.status === "pending").length;
-    const confirmed = appointments.filter((a)=>a.status === "confirmed").length;
-    const today = appointments.slice(0, 5);
+const Dashboard = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["memo"])(_s(({ appointments, loading })=>{
+    _s();
+    const pending = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "Dashboard.useMemo[pending]": ()=>appointments.filter({
+                "Dashboard.useMemo[pending]": (a)=>a.status === "pending"
+            }["Dashboard.useMemo[pending]"]).length
+    }["Dashboard.useMemo[pending]"], [
+        appointments
+    ]);
+    const confirmed = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "Dashboard.useMemo[confirmed]": ()=>appointments.filter({
+                "Dashboard.useMemo[confirmed]": (a)=>a.status === "confirmed"
+            }["Dashboard.useMemo[confirmed]"]).length
+    }["Dashboard.useMemo[confirmed]"], [
+        appointments
+    ]);
+    const today = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "Dashboard.useMemo[today]": ()=>appointments.slice(0, 5)
+    }["Dashboard.useMemo[today]"], [
+        appointments
+    ]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "space-y-8",
+        className: "space-y-8 animate-fade-in",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 children: [
@@ -350,23 +388,23 @@ function Dashboard({ appointments, loading }) {
                         children: "Dashboard Overview"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 69,
+                        lineNumber: 70,
                         columnNumber: 17
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-sm text-muted-foreground",
                         children: "Welcome back! Here's what's happening at Tooth World today."
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 70,
+                        lineNumber: 71,
                         columnNumber: 17
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 68,
+                lineNumber: 69,
                 columnNumber: 13
-            }, this),
+            }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "grid grid-cols-2 lg:grid-cols-4 gap-4",
                 children: [
@@ -375,7 +413,7 @@ function Dashboard({ appointments, loading }) {
                             className: "w-6 h-6 text-white"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                            lineNumber: 74,
+                            lineNumber: 75,
                             columnNumber: 33
                         }, void 0),
                         label: "Total Appointments",
@@ -384,15 +422,15 @@ function Dashboard({ appointments, loading }) {
                         color: "hsl(var(--primary))"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 74,
+                        lineNumber: 75,
                         columnNumber: 17
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(StatCard, {
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__["Clock"], {
                             className: "w-6 h-6 text-white"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                            lineNumber: 76,
+                            lineNumber: 77,
                             columnNumber: 33
                         }, void 0),
                         label: "Pending",
@@ -401,15 +439,15 @@ function Dashboard({ appointments, loading }) {
                         color: "hsl(38 92% 55%)"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 76,
+                        lineNumber: 77,
                         columnNumber: 17
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(StatCard, {
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2d$big$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle$3e$__["CheckCircle"], {
                             className: "w-6 h-6 text-white"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                            lineNumber: 78,
+                            lineNumber: 79,
                             columnNumber: 33
                         }, void 0),
                         label: "Confirmed",
@@ -418,15 +456,15 @@ function Dashboard({ appointments, loading }) {
                         color: "hsl(142 71% 45%)"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 78,
+                        lineNumber: 79,
                         columnNumber: 17
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(StatCard, {
                         icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trending$2d$up$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__TrendingUp$3e$__["TrendingUp"], {
                             className: "w-6 h-6 text-white"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                            lineNumber: 80,
+                            lineNumber: 81,
                             columnNumber: 33
                         }, void 0),
                         label: "Satisfaction",
@@ -435,15 +473,15 @@ function Dashboard({ appointments, loading }) {
                         color: "hsl(262 80% 65%)"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 80,
+                        lineNumber: 81,
                         columnNumber: 17
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 73,
+                lineNumber: 74,
                 columnNumber: 13
-            }, this),
+            }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "card-dental p-6",
                 children: [
@@ -457,16 +495,16 @@ function Dashboard({ appointments, loading }) {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 86,
+                                lineNumber: 87,
                                 columnNumber: 21
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             " Recent Appointments"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 85,
+                        lineNumber: 86,
                         columnNumber: 17
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "flex items-center justify-center py-10 text-muted-foreground gap-2",
                         children: [
@@ -474,39 +512,39 @@ function Dashboard({ appointments, loading }) {
                                 className: "w-5 h-5 animate-spin"
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 90,
+                                lineNumber: 91,
                                 columnNumber: 25
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             " Loading appointments..."
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 89,
+                        lineNumber: 90,
                         columnNumber: 21
-                    }, this) : today.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    }, ("TURBOPACK compile-time value", void 0)) : today.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "text-center py-10 text-muted-foreground",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$alert$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__AlertCircle$3e$__["AlertCircle"], {
                                 className: "w-8 h-8 mx-auto mb-2 opacity-40"
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 94,
+                                lineNumber: 95,
                                 columnNumber: 25
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 className: "text-sm",
                                 children: "No appointments yet. They'll appear here once patients book."
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 95,
+                                lineNumber: 96,
                                 columnNumber: 25
-                            }, this)
+                            }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 93,
+                        lineNumber: 94,
                         columnNumber: 21
-                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "space-y-3",
                         children: today.map((apt)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex items-center justify-between p-4 rounded-xl border border-border hover:border-primary/30 transition-colors",
@@ -522,9 +560,9 @@ function Dashboard({ appointments, loading }) {
                                                 children: apt.patient[0]
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 102,
+                                                lineNumber: 103,
                                                 columnNumber: 37
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -532,9 +570,9 @@ function Dashboard({ appointments, loading }) {
                                                         children: apt.patient
                                                     }, void 0, false, {
                                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                        lineNumber: 107,
+                                                        lineNumber: 108,
                                                         columnNumber: 41
-                                                    }, this),
+                                                    }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         className: "text-xs text-muted-foreground",
                                                         children: [
@@ -544,21 +582,21 @@ function Dashboard({ appointments, loading }) {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                        lineNumber: 108,
+                                                        lineNumber: 109,
                                                         columnNumber: 41
-                                                    }, this)
+                                                    }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 106,
+                                                lineNumber: 107,
                                                 columnNumber: 37
-                                            }, this)
+                                            }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 101,
+                                        lineNumber: 102,
                                         columnNumber: 33
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "text-right",
                                         children: [
@@ -567,69 +605,81 @@ function Dashboard({ appointments, loading }) {
                                                 children: apt.time
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 112,
+                                                lineNumber: 113,
                                                 columnNumber: 37
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-xs text-muted-foreground",
                                                 children: apt.date
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 113,
+                                                lineNumber: 114,
                                                 columnNumber: 37
-                                            }, this)
+                                            }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 111,
+                                        lineNumber: 112,
                                         columnNumber: 33
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: `ml-4 text-xs font-medium px-2.5 py-1 rounded-full ${apt.status === "confirmed" ? "bg-green-100 text-green-700" : apt.status === "pending" ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-600"}`,
                                         children: apt.status
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 115,
+                                        lineNumber: 116,
                                         columnNumber: 33
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, apt._id, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 100,
+                                lineNumber: 101,
                                 columnNumber: 29
-                            }, this))
+                            }, ("TURBOPACK compile-time value", void 0)))
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 98,
+                        lineNumber: 99,
                         columnNumber: 21
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 84,
+                lineNumber: 85,
                 columnNumber: 13
-            }, this)
+            }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-        lineNumber: 67,
+        lineNumber: 68,
         columnNumber: 9
-    }, this);
-}
+    }, ("TURBOPACK compile-time value", void 0));
+}, "WQF15+s67A7RpOwh70y9jNzrFVM="));
 _c1 = Dashboard;
+Dashboard.displayName = "Dashboard";
 // --- Appointments Manager ---
-function AppointmentsManager({ appointments, loading, onUpdateStatus }) {
-    _s();
+const AppointmentsManager = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["memo"])(_s1(({ appointments, loading, onUpdateStatus })=>{
+    _s1();
     const [filter, setFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("all");
     const [updating, setUpdating] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
-    const filtered = filter === "all" ? appointments : appointments.filter((a)=>a.status === filter);
-    const handleUpdate = async (id, status)=>{
-        setUpdating(id);
-        await onUpdateStatus(id, status);
-        setUpdating(null);
-    };
+    const filtered = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "AppointmentsManager.useMemo[filtered]": ()=>filter === "all" ? appointments : appointments.filter({
+                "AppointmentsManager.useMemo[filtered]": (a)=>a.status === filter
+            }["AppointmentsManager.useMemo[filtered]"])
+    }["AppointmentsManager.useMemo[filtered]"], [
+        appointments,
+        filter
+    ]);
+    const handleUpdate = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "AppointmentsManager.useCallback[handleUpdate]": async (id, status)=>{
+            setUpdating(id);
+            await onUpdateStatus(id, status);
+            setUpdating(null);
+        }
+    }["AppointmentsManager.useCallback[handleUpdate]"], [
+        onUpdateStatus
+    ]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "space-y-6",
+        className: "space-y-6 animate-fade-in",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 children: [
@@ -641,23 +691,23 @@ function AppointmentsManager({ appointments, loading, onUpdateStatus }) {
                         children: "Appointments"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 149,
+                        lineNumber: 151,
                         columnNumber: 17
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-sm text-muted-foreground mt-1",
                         children: "Manage all patient appointments · WhatsApp notifications sent automatically on accept/decline"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 150,
+                        lineNumber: 152,
                         columnNumber: 17
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 148,
+                lineNumber: 150,
                 columnNumber: 13
-            }, this),
+            }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex gap-2 flex-wrap",
                 children: [
@@ -674,14 +724,14 @@ function AppointmentsManager({ appointments, loading, onUpdateStatus }) {
                         children: f
                     }, f, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 157,
+                        lineNumber: 159,
                         columnNumber: 21
-                    }, this))
+                    }, ("TURBOPACK compile-time value", void 0)))
             }, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 155,
+                lineNumber: 157,
                 columnNumber: 13
-            }, this),
+            }, ("TURBOPACK compile-time value", void 0)),
             loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex items-center justify-center py-16 text-muted-foreground gap-2",
                 children: [
@@ -689,39 +739,39 @@ function AppointmentsManager({ appointments, loading, onUpdateStatus }) {
                         className: "w-5 h-5 animate-spin"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 167,
+                        lineNumber: 169,
                         columnNumber: 21
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     " Loading..."
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 166,
+                lineNumber: 168,
                 columnNumber: 17
-            }, this) : filtered.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            }, ("TURBOPACK compile-time value", void 0)) : filtered.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "card-dental p-10 text-center text-muted-foreground",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$alert$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__AlertCircle$3e$__["AlertCircle"], {
                         className: "w-8 h-8 mx-auto mb-2 opacity-40"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 171,
+                        lineNumber: 173,
                         columnNumber: 21
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-sm",
                         children: "No appointments found."
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 172,
+                        lineNumber: 174,
                         columnNumber: 21
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 170,
+                lineNumber: 172,
                 columnNumber: 17
-            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "space-y-3",
                 children: filtered.map((apt)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "card-dental p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4",
@@ -737,9 +787,9 @@ function AppointmentsManager({ appointments, loading, onUpdateStatus }) {
                                         children: apt.patient[0]
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 179,
+                                        lineNumber: 181,
                                         columnNumber: 33
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -747,25 +797,25 @@ function AppointmentsManager({ appointments, loading, onUpdateStatus }) {
                                                 children: apt.patient
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 184,
+                                                lineNumber: 186,
                                                 columnNumber: 37
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-xs text-muted-foreground",
                                                 children: apt.service
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 185,
+                                                lineNumber: 187,
                                                 columnNumber: 37
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             apt.patient_email && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-xs text-muted-foreground",
                                                 children: apt.patient_email
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 186,
+                                                lineNumber: 188,
                                                 columnNumber: 59
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             apt.patient_phone && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-xs text-muted-foreground flex items-center gap-1",
                                                 children: [
@@ -774,21 +824,21 @@ function AppointmentsManager({ appointments, loading, onUpdateStatus }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 188,
+                                                lineNumber: 190,
                                                 columnNumber: 41
-                                            }, this)
+                                            }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 183,
+                                        lineNumber: 185,
                                         columnNumber: 33
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 178,
+                                lineNumber: 180,
                                 columnNumber: 29
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex items-center gap-4 text-sm text-muted-foreground",
                                 children: [
@@ -796,16 +846,16 @@ function AppointmentsManager({ appointments, loading, onUpdateStatus }) {
                                         children: apt.dentist
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 195,
+                                        lineNumber: 197,
                                         columnNumber: 33
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: "·"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 195,
+                                        lineNumber: 197,
                                         columnNumber: 59
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: [
                                             apt.date,
@@ -814,15 +864,15 @@ function AppointmentsManager({ appointments, loading, onUpdateStatus }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 195,
+                                        lineNumber: 197,
                                         columnNumber: 73
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 194,
+                                lineNumber: 196,
                                 columnNumber: 29
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex items-center gap-2",
                                 children: [
@@ -831,9 +881,9 @@ function AppointmentsManager({ appointments, loading, onUpdateStatus }) {
                                         children: apt.status
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 198,
+                                        lineNumber: 200,
                                         columnNumber: 33
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     apt.status === "pending" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -844,20 +894,20 @@ function AppointmentsManager({ appointments, loading, onUpdateStatus }) {
                                                     className: "w-3.5 h-3.5 animate-spin"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                    lineNumber: 207,
+                                                    lineNumber: 209,
                                                     columnNumber: 69
-                                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
+                                                }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
                                                     className: "w-3.5 h-3.5"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                    lineNumber: 207,
+                                                    lineNumber: 209,
                                                     columnNumber: 120
-                                                }, this)
+                                                }, ("TURBOPACK compile-time value", void 0))
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 205,
+                                                lineNumber: 207,
                                                 columnNumber: 41
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                 onClick: ()=>handleUpdate(apt._id, "cancelled"),
                                                 disabled: updating === apt._id,
@@ -866,45 +916,45 @@ function AppointmentsManager({ appointments, loading, onUpdateStatus }) {
                                                     className: "w-3.5 h-3.5"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                    lineNumber: 211,
+                                                    lineNumber: 213,
                                                     columnNumber: 45
-                                                }, this)
+                                                }, ("TURBOPACK compile-time value", void 0))
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 209,
+                                                lineNumber: 211,
                                                 columnNumber: 41
-                                            }, this)
+                                            }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 197,
+                                lineNumber: 199,
                                 columnNumber: 29
-                            }, this)
+                            }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, apt._id, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 177,
+                        lineNumber: 179,
                         columnNumber: 25
-                    }, this))
+                    }, ("TURBOPACK compile-time value", void 0)))
             }, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 175,
+                lineNumber: 177,
                 columnNumber: 17
-            }, this)
+            }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-        lineNumber: 147,
+        lineNumber: 149,
         columnNumber: 9
-    }, this);
-}
-_s(AppointmentsManager, "Vj3ra3KQcEKrZ8kR45SpLFtCIVc=");
+    }, ("TURBOPACK compile-time value", void 0));
+}, "24CaS4i7dL4qptz+1gas8FPfuMA="));
 _c2 = AppointmentsManager;
+AppointmentsManager.displayName = "AppointmentsManager";
 // --- Calendar & Slots Manager ---
-function CalendarManager({ dentists }) {
-    _s1();
+const CalendarManager = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["memo"])(_s2(({ dentists })=>{
+    _s2();
     const [selectedDentist, setSelectedDentist] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [selectedDay, setSelectedDay] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("Mon");
     const [blockedSlots, setBlockedSlots] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({});
@@ -915,8 +965,28 @@ function CalendarManager({ dentists }) {
             if (dentists.length > 0 && !selectedDentist) setSelectedDentist(dentists[0]._id);
         }
     }["CalendarManager.useEffect"], [
-        dentists
+        dentists,
+        selectedDentist
     ]);
+    const fetchBlockedSlots = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "CalendarManager.useCallback[fetchBlockedSlots]": async (isInitial = false)=>{
+            if (isInitial) setLoading(true);
+            const { data } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$integrations$2f$mongodb$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["findMany"])("blocked_slots");
+            if (data) {
+                const map = {};
+                data.forEach({
+                    "CalendarManager.useCallback[fetchBlockedSlots]": (row)=>{
+                        const key = String(row.dentist_id);
+                        if (!map[key]) map[key] = {};
+                        if (!map[key][row.day]) map[key][row.day] = [];
+                        map[key][row.day].push(row.slot);
+                    }
+                }["CalendarManager.useCallback[fetchBlockedSlots]"]);
+                setBlockedSlots(map);
+            }
+            setLoading(false);
+        }
+    }["CalendarManager.useCallback[fetchBlockedSlots]"], []);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "CalendarManager.useEffect": ()=>{
             fetchBlockedSlots(true);
@@ -927,22 +997,9 @@ function CalendarManager({ dentists }) {
                 "CalendarManager.useEffect": ()=>clearInterval(interval)
             })["CalendarManager.useEffect"];
         }
-    }["CalendarManager.useEffect"], []);
-    const fetchBlockedSlots = async (isInitial = false)=>{
-        if (isInitial) setLoading(true);
-        const { data } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$integrations$2f$mongodb$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["findMany"])("blocked_slots");
-        if (data) {
-            const map = {};
-            data.forEach((row)=>{
-                const key = String(row.dentist_id);
-                if (!map[key]) map[key] = {};
-                if (!map[key][row.day]) map[key][row.day] = [];
-                map[key][row.day].push(row.slot);
-            });
-            setBlockedSlots(map);
-        }
-        setLoading(false);
-    };
+    }["CalendarManager.useEffect"], [
+        fetchBlockedSlots
+    ]);
     const toggleSlot = async (slot)=>{
         if (!selectedDentist) return;
         const key = String(selectedDentist);
@@ -980,11 +1037,24 @@ function CalendarManager({ dentists }) {
         }
         setToggling(null);
     };
-    const dentist = dentists.find((d)=>d._id === selectedDentist);
-    const currentBlocked = blockedSlots[String(selectedDentist)]?.[selectedDay] || [];
+    const dentist = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "CalendarManager.useMemo[dentist]": ()=>dentists.find({
+                "CalendarManager.useMemo[dentist]": (d)=>d._id === selectedDentist
+            }["CalendarManager.useMemo[dentist]"])
+    }["CalendarManager.useMemo[dentist]"], [
+        dentists,
+        selectedDentist
+    ]);
+    const currentBlocked = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "CalendarManager.useMemo[currentBlocked]": ()=>blockedSlots[String(selectedDentist)]?.[selectedDay] || []
+    }["CalendarManager.useMemo[currentBlocked]"], [
+        blockedSlots,
+        selectedDentist,
+        selectedDay
+    ]);
     const blockedCount = currentBlocked.length;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "space-y-6",
+        className: "space-y-6 animate-fade-in",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 children: [
@@ -996,23 +1066,23 @@ function CalendarManager({ dentists }) {
                         children: "Calendar & Slots"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 287,
+                        lineNumber: 290,
                         columnNumber: 17
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-sm text-muted-foreground mt-1",
                         children: "Block or unblock time slots for each dentist. Updates in real-time."
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 288,
+                        lineNumber: 291,
                         columnNumber: 17
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 286,
+                lineNumber: 289,
                 columnNumber: 13
-            }, this),
+            }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex gap-3 flex-wrap",
                 children: dentists.map((d)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1031,21 +1101,21 @@ function CalendarManager({ dentists }) {
                                 children: d.avatar
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 296,
+                                lineNumber: 299,
                                 columnNumber: 25
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             d.name
                         ]
                     }, d._id, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 293,
+                        lineNumber: 296,
                         columnNumber: 21
-                    }, this))
+                    }, ("TURBOPACK compile-time value", void 0)))
             }, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 291,
+                lineNumber: 294,
                 columnNumber: 13
-            }, this),
+            }, ("TURBOPACK compile-time value", void 0)),
             loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex items-center justify-center py-16 text-muted-foreground gap-2",
                 children: [
@@ -1053,16 +1123,16 @@ function CalendarManager({ dentists }) {
                         className: "w-5 h-5 animate-spin"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 310,
+                        lineNumber: 313,
                         columnNumber: 21
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     " Loading slots..."
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 309,
+                lineNumber: 312,
                 columnNumber: 17
-            }, this) : dentist ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            }, ("TURBOPACK compile-time value", void 0)) : dentist ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "card-dental p-6 space-y-5",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1079,9 +1149,9 @@ function CalendarManager({ dentists }) {
                                         children: dentist.avatar
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 316,
+                                        lineNumber: 319,
                                         columnNumber: 29
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1089,29 +1159,29 @@ function CalendarManager({ dentists }) {
                                                 children: dentist.name
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 321,
+                                                lineNumber: 324,
                                                 columnNumber: 33
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-xs text-muted-foreground",
                                                 children: dentist.specialty
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 322,
+                                                lineNumber: 325,
                                                 columnNumber: 33
-                                            }, this)
+                                            }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 320,
+                                        lineNumber: 323,
                                         columnNumber: 29
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 315,
+                                lineNumber: 318,
                                 columnNumber: 25
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex items-center gap-4 text-xs text-muted-foreground",
                                 children: [
@@ -1126,16 +1196,16 @@ function CalendarManager({ dentists }) {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 327,
+                                                lineNumber: 330,
                                                 columnNumber: 33
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             "Available"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 326,
+                                        lineNumber: 329,
                                         columnNumber: 29
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "flex items-center gap-1.5",
                                         children: [
@@ -1146,28 +1216,28 @@ function CalendarManager({ dentists }) {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 331,
+                                                lineNumber: 334,
                                                 columnNumber: 33
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             "Blocked"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 330,
+                                        lineNumber: 333,
                                         columnNumber: 29
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 325,
+                                lineNumber: 328,
                                 columnNumber: 25
-                            }, this)
+                            }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 314,
+                        lineNumber: 317,
                         columnNumber: 21
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "flex gap-2 flex-wrap",
                         children: DAYS.map((day)=>{
@@ -1185,21 +1255,21 @@ function CalendarManager({ dentists }) {
                                         children: cnt
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 347,
+                                        lineNumber: 350,
                                         columnNumber: 41
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, day, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 341,
+                                lineNumber: 344,
                                 columnNumber: 33
-                            }, this);
+                            }, ("TURBOPACK compile-time value", void 0));
                         })
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 337,
+                        lineNumber: 340,
                         columnNumber: 21
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1207,9 +1277,9 @@ function CalendarManager({ dentists }) {
                                 children: blockedCount === 0 ? `All ${ALL_SLOTS.length} slots available on ${selectedDay}` : `${blockedCount} slot${blockedCount > 1 ? "s" : ""} blocked on ${selectedDay} — click to toggle`
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 358,
+                                lineNumber: 361,
                                 columnNumber: 25
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "grid grid-cols-3 sm:grid-cols-4 gap-2.5",
                                 children: ALL_SLOTS.map((slot)=>{
@@ -1229,58 +1299,58 @@ function CalendarManager({ dentists }) {
                                                 className: "w-3.5 h-3.5 animate-spin"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 382,
+                                                lineNumber: 385,
                                                 columnNumber: 45
-                                            }, this) : isBlocked ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__["X"], {
+                                            }, ("TURBOPACK compile-time value", void 0)) : isBlocked ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__["X"], {
                                                 className: "w-3.5 h-3.5"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 384,
+                                                lineNumber: 387,
                                                 columnNumber: 45
-                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
+                                            }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
                                                 className: "w-3.5 h-3.5"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 386,
+                                                lineNumber: 389,
                                                 columnNumber: 45
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             slot
                                         ]
                                     }, slot, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 368,
+                                        lineNumber: 371,
                                         columnNumber: 37
-                                    }, this);
+                                    }, ("TURBOPACK compile-time value", void 0));
                                 })
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 363,
+                                lineNumber: 366,
                                 columnNumber: 25
-                            }, this)
+                            }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 357,
+                        lineNumber: 360,
                         columnNumber: 21
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 313,
+                lineNumber: 316,
                 columnNumber: 17
-            }, this) : null
+            }, ("TURBOPACK compile-time value", void 0)) : null
         ]
     }, void 0, true, {
         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-        lineNumber: 285,
+        lineNumber: 288,
         columnNumber: 9
-    }, this);
-}
-_s1(CalendarManager, "uD1WQqV+49jXb0BC4LGvP+Hv/SA=");
+    }, ("TURBOPACK compile-time value", void 0));
+}, "w2HJN3iAjq0UGW1HuD7TqTAivps="));
 _c3 = CalendarManager;
+CalendarManager.displayName = "CalendarManager";
 // --- Blog Manager ---
-function BlogManager({ dentists }) {
-    _s2();
+const BlogManager = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["memo"])(_s3(({ dentists })=>{
+    _s3();
     const [posts, setPosts] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [creating, setCreating] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
@@ -1303,21 +1373,25 @@ function BlogManager({ dentists }) {
         "General"
     ];
     const defaultAuthor = dentists[0]?.name || "Dr. Admin";
+    const fetchPosts = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "BlogManager.useCallback[fetchPosts]": async ()=>{
+            setLoading(true);
+            const { data } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$integrations$2f$mongodb$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["findMany"])("blog_posts", {}, {
+                sort: {
+                    created_at: -1
+                }
+            });
+            if (data) setPosts(data);
+            setLoading(false);
+        }
+    }["BlogManager.useCallback[fetchPosts]"], []);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "BlogManager.useEffect": ()=>{
             fetchPosts();
         }
-    }["BlogManager.useEffect"], []);
-    const fetchPosts = async ()=>{
-        setLoading(true);
-        const { data } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$integrations$2f$mongodb$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["findMany"])("blog_posts", {}, {
-            sort: {
-                created_at: -1
-            }
-        });
-        if (data) setPosts(data);
-        setLoading(false);
-    };
+    }["BlogManager.useEffect"], [
+        fetchPosts
+    ]);
     const handleCreate = async ()=>{
         if (!newPost.title.trim()) return;
         setSaving(true);
@@ -1375,7 +1449,7 @@ function BlogManager({ dentists }) {
         fetchPosts();
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "space-y-6",
+        className: "space-y-6 animate-fade-in",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex items-center justify-between",
@@ -1390,23 +1464,23 @@ function BlogManager({ dentists }) {
                                 children: "Blog Management"
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 473,
+                                lineNumber: 477,
                                 columnNumber: 21
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 className: "text-sm text-muted-foreground mt-1",
                                 children: "Create and manage your dental health articles"
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 474,
+                                lineNumber: 478,
                                 columnNumber: 21
-                            }, this)
+                            }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 472,
+                        lineNumber: 476,
                         columnNumber: 17
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                         onClick: ()=>setCreating(true),
                         className: "btn-primary text-sm",
@@ -1415,22 +1489,22 @@ function BlogManager({ dentists }) {
                                 className: "w-4 h-4"
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 477,
+                                lineNumber: 481,
                                 columnNumber: 21
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             " New Post"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 476,
+                        lineNumber: 480,
                         columnNumber: 17
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 471,
+                lineNumber: 475,
                 columnNumber: 13
-            }, this),
+            }, ("TURBOPACK compile-time value", void 0)),
             creating && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "card-dental p-6 animate-scale-in border-2",
                 style: {
@@ -1447,16 +1521,16 @@ function BlogManager({ dentists }) {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 484,
+                                lineNumber: 488,
                                 columnNumber: 25
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             " New Blog Post"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 483,
+                        lineNumber: 487,
                         columnNumber: 21
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "space-y-4",
                         children: [
@@ -1467,9 +1541,9 @@ function BlogManager({ dentists }) {
                                         children: "Post Title *"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 488,
+                                        lineNumber: 492,
                                         columnNumber: 29
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                         className: "input-dental",
                                         placeholder: "Enter a compelling title...",
@@ -1480,15 +1554,15 @@ function BlogManager({ dentists }) {
                                             })
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 489,
+                                        lineNumber: 493,
                                         columnNumber: 29
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 487,
+                                lineNumber: 491,
                                 columnNumber: 25
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -1496,9 +1570,9 @@ function BlogManager({ dentists }) {
                                         children: "Category"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 493,
+                                        lineNumber: 497,
                                         columnNumber: 29
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
                                         className: "input-dental",
                                         value: newPost.category,
@@ -1511,20 +1585,20 @@ function BlogManager({ dentists }) {
                                                 children: c
                                             }, c, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 496,
+                                                lineNumber: 500,
                                                 columnNumber: 54
-                                            }, this))
+                                            }, ("TURBOPACK compile-time value", void 0)))
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 494,
+                                        lineNumber: 498,
                                         columnNumber: 29
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 492,
+                                lineNumber: 496,
                                 columnNumber: 25
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -1532,9 +1606,9 @@ function BlogManager({ dentists }) {
                                         children: "Content"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 500,
+                                        lineNumber: 504,
                                         columnNumber: 29
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
                                         className: "input-dental min-h-[140px] resize-y",
                                         placeholder: "Write your article content here...",
@@ -1545,15 +1619,15 @@ function BlogManager({ dentists }) {
                                             })
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 501,
+                                        lineNumber: 505,
                                         columnNumber: 29
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 499,
+                                lineNumber: 503,
                                 columnNumber: 25
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -1561,9 +1635,9 @@ function BlogManager({ dentists }) {
                                         children: "Post Images"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 505,
+                                        lineNumber: 509,
                                         columnNumber: 29
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "flex flex-wrap gap-2 mb-2",
                                         children: [
@@ -1575,9 +1649,9 @@ function BlogManager({ dentists }) {
                                                             className: "w-full h-full object-cover"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                            lineNumber: 509,
+                                                            lineNumber: 513,
                                                             columnNumber: 41
-                                                        }, this),
+                                                        }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                             onClick: ()=>setPendingImages((prev)=>prev.filter((_, idx)=>idx !== i)),
                                                             className: "absolute top-0 right-0 bg-red-500 text-white rounded-bl-lg p-0.5",
@@ -1585,20 +1659,20 @@ function BlogManager({ dentists }) {
                                                                 className: "w-3 h-3"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                                lineNumber: 512,
+                                                                lineNumber: 516,
                                                                 columnNumber: 45
-                                                            }, this)
+                                                            }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                            lineNumber: 510,
+                                                            lineNumber: 514,
                                                             columnNumber: 41
-                                                        }, this)
+                                                        }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, i, true, {
                                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                    lineNumber: 508,
+                                                    lineNumber: 512,
                                                     columnNumber: 37
-                                                }, this)),
+                                                }, ("TURBOPACK compile-time value", void 0))),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                 onClick: ()=>fileInputRef.current?.click(),
                                                 className: "w-16 h-16 rounded-lg border-2 border-dashed border-border flex flex-col items-center justify-center text-muted-foreground hover:border-primary/50 hover:text-primary transition-all",
@@ -1607,23 +1681,23 @@ function BlogManager({ dentists }) {
                                                         className: "w-4 h-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                        lineNumber: 518,
+                                                        lineNumber: 522,
                                                         columnNumber: 37
-                                                    }, this),
+                                                    }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         className: "text-[10px]",
                                                         children: "Add"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                        lineNumber: 519,
+                                                        lineNumber: 523,
                                                         columnNumber: 37
-                                                    }, this)
+                                                    }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 516,
+                                                lineNumber: 520,
                                                 columnNumber: 33
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                 type: "file",
                                                 ref: fileInputRef,
@@ -1633,21 +1707,21 @@ function BlogManager({ dentists }) {
                                                 onChange: handleFileChange
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 521,
+                                                lineNumber: 525,
                                                 columnNumber: 33
-                                            }, this)
+                                            }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 506,
+                                        lineNumber: 510,
                                         columnNumber: 29
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 504,
+                                lineNumber: 508,
                                 columnNumber: 25
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex gap-3",
                                 children: [
@@ -1660,22 +1734,22 @@ function BlogManager({ dentists }) {
                                                 className: "w-4 h-4 animate-spin"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 526,
+                                                lineNumber: 530,
                                                 columnNumber: 43
-                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
+                                            }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
                                                 className: "w-4 h-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 526,
+                                                lineNumber: 530,
                                                 columnNumber: 90
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             saving ? "Saving..." : "Save as Draft"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 525,
+                                        lineNumber: 529,
                                         columnNumber: 29
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         onClick: ()=>{
                                             setCreating(false);
@@ -1686,34 +1760,34 @@ function BlogManager({ dentists }) {
                                                 className: "w-4 h-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 530,
+                                                lineNumber: 534,
                                                 columnNumber: 33
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             " Cancel"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 529,
+                                        lineNumber: 533,
                                         columnNumber: 29
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 524,
+                                lineNumber: 528,
                                 columnNumber: 25
-                            }, this)
+                            }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 486,
+                        lineNumber: 490,
                         columnNumber: 21
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 482,
+                lineNumber: 486,
                 columnNumber: 17
-            }, this),
+            }, ("TURBOPACK compile-time value", void 0)),
             loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex items-center justify-center py-16 text-muted-foreground gap-2",
                 children: [
@@ -1721,39 +1795,39 @@ function BlogManager({ dentists }) {
                         className: "w-5 h-5 animate-spin"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 539,
+                        lineNumber: 543,
                         columnNumber: 21
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     " Loading posts..."
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 538,
+                lineNumber: 542,
                 columnNumber: 17
-            }, this) : posts.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            }, ("TURBOPACK compile-time value", void 0)) : posts.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "card-dental p-10 text-center text-muted-foreground",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$alert$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__AlertCircle$3e$__["AlertCircle"], {
                         className: "w-8 h-8 mx-auto mb-2 opacity-40"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 543,
+                        lineNumber: 547,
                         columnNumber: 21
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-sm",
                         children: 'No blog posts yet. Click "New Post" to create your first article.'
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 544,
+                        lineNumber: 548,
                         columnNumber: 21
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 542,
+                lineNumber: 546,
                 columnNumber: 17
-            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "space-y-3",
                 children: posts.map((post)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "card-dental p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4",
@@ -1769,9 +1843,9 @@ function BlogManager({ dentists }) {
                                         children: "📄"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 551,
+                                        lineNumber: 555,
                                         columnNumber: 33
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "min-w-0",
                                         children: [
@@ -1783,31 +1857,31 @@ function BlogManager({ dentists }) {
                                                         children: post.category
                                                     }, void 0, false, {
                                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                        lineNumber: 555,
+                                                        lineNumber: 559,
                                                         columnNumber: 41
-                                                    }, this),
+                                                    }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         className: `text-xs font-medium px-2 py-0.5 rounded-full ${post.published ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`,
                                                         children: post.published ? "Published" : "Draft"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                        lineNumber: 556,
+                                                        lineNumber: 560,
                                                         columnNumber: 41
-                                                    }, this)
+                                                    }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 554,
+                                                lineNumber: 558,
                                                 columnNumber: 37
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
                                                 className: "font-semibold text-sm truncate",
                                                 children: post.title
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 560,
+                                                lineNumber: 564,
                                                 columnNumber: 37
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-xs text-muted-foreground mt-0.5",
                                                 children: [
@@ -1818,21 +1892,21 @@ function BlogManager({ dentists }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 561,
+                                                lineNumber: 565,
                                                 columnNumber: 37
-                                            }, this)
+                                            }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 553,
+                                        lineNumber: 557,
                                         columnNumber: 33
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 550,
+                                lineNumber: 554,
                                 columnNumber: 29
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex items-center gap-2 flex-shrink-0",
                                 children: [
@@ -1842,9 +1916,9 @@ function BlogManager({ dentists }) {
                                         children: post.published ? "Unpublish" : "Publish"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 567,
+                                        lineNumber: 571,
                                         columnNumber: 33
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         onClick: ()=>deletePost(post._id),
                                         className: "p-2 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors",
@@ -1852,49 +1926,61 @@ function BlogManager({ dentists }) {
                                             className: "w-3.5 h-3.5"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                            lineNumber: 576,
+                                            lineNumber: 580,
                                             columnNumber: 37
-                                        }, this)
+                                        }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 574,
+                                        lineNumber: 578,
                                         columnNumber: 33
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 566,
+                                lineNumber: 570,
                                 columnNumber: 29
-                            }, this)
+                            }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, post._id, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 549,
+                        lineNumber: 553,
                         columnNumber: 25
-                    }, this))
+                    }, ("TURBOPACK compile-time value", void 0)))
             }, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 547,
+                lineNumber: 551,
                 columnNumber: 17
-            }, this)
+            }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-        lineNumber: 470,
+        lineNumber: 474,
         columnNumber: 9
-    }, this);
-}
-_s2(BlogManager, "wTyOiNgUTJO3kj/STEFD6apd0ZU=");
+    }, ("TURBOPACK compile-time value", void 0));
+}, "8mrheqMdzpJ+sBuzL88RRVrocqo="));
 _c4 = BlogManager;
+BlogManager.displayName = "BlogManager";
 // --- Gallery Manager ---
-function GalleryManager() {
-    _s3();
+const GalleryManager = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["memo"])(_s4(()=>{
+    _s4();
     const [images, setImages] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [uploading, setUploading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [caption, setCaption] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [url, setUrl] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const fileRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const fetchImages = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "GalleryManager.useCallback[fetchImages]": async ()=>{
+            setLoading(true);
+            const { data } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$integrations$2f$mongodb$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["findMany"])("gallery_images", {}, {
+                sort: {
+                    created_at: -1
+                }
+            });
+            if (data) setImages(data);
+            setLoading(false);
+        }
+    }["GalleryManager.useCallback[fetchImages]"], []);
     const handleFileUpload = (e)=>{
         const file = e.target.files?.[0];
         if (!file) return;
@@ -1908,23 +1994,16 @@ function GalleryManager() {
         "GalleryManager.useEffect": ()=>{
             fetchImages();
         }
-    }["GalleryManager.useEffect"], []);
-    const fetchImages = async ()=>{
-        setLoading(true);
-        const { data } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$integrations$2f$mongodb$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["findMany"])("gallery_images", {}, {
-            sort: {
-                created_at: -1
-            }
-        });
-        if (data) setImages(data);
-        setLoading(false);
-    };
+    }["GalleryManager.useEffect"], [
+        fetchImages
+    ]);
     const handleAdd = async ()=>{
         if (!url) return;
         setUploading(true);
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$integrations$2f$mongodb$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["insertOne"])("gallery_images", {
             url,
-            caption: caption.trim() || null
+            caption: caption.trim() || null,
+            created_at: new Date().toISOString()
         });
         setUrl("");
         setCaption("");
@@ -1938,7 +2017,7 @@ function GalleryManager() {
         fetchImages();
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "space-y-6",
+        className: "space-y-6 animate-fade-in",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 children: [
@@ -1950,23 +2029,23 @@ function GalleryManager() {
                         children: "Gallery Manager"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 634,
+                        lineNumber: 639,
                         columnNumber: 17
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-sm text-muted-foreground mt-1",
                         children: "Manage clinic photos shown on the public gallery page."
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 635,
+                        lineNumber: 640,
                         columnNumber: 17
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 633,
+                lineNumber: 638,
                 columnNumber: 13
-            }, this),
+            }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "card-dental p-6 border-2",
                 style: {
@@ -1983,16 +2062,16 @@ function GalleryManager() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 640,
+                                lineNumber: 645,
                                 columnNumber: 21
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             " Add New Photo"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 639,
+                        lineNumber: 644,
                         columnNumber: 17
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "space-y-4",
                         children: [
@@ -2007,9 +2086,9 @@ function GalleryManager() {
                                                 children: "Image URL"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 645,
+                                                lineNumber: 650,
                                                 columnNumber: 29
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                 className: "input-dental",
                                                 placeholder: "https://...",
@@ -2017,22 +2096,22 @@ function GalleryManager() {
                                                 onChange: (e)=>setUrl(e.target.value)
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 646,
+                                                lineNumber: 651,
                                                 columnNumber: 29
-                                            }, this)
+                                            }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 644,
+                                        lineNumber: 649,
                                         columnNumber: 25
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "w-px h-12 bg-border self-end mb-2"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 648,
+                                        lineNumber: 653,
                                         columnNumber: 25
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "flex-1",
                                         children: [
@@ -2041,9 +2120,9 @@ function GalleryManager() {
                                                 children: "Or Upload Image"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 650,
+                                                lineNumber: 655,
                                                 columnNumber: 29
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                 onClick: ()=>fileRef.current?.click(),
                                                 className: "btn-outline w-full h-11 text-xs",
@@ -2052,16 +2131,16 @@ function GalleryManager() {
                                                         className: "w-3.5 h-3.5"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                        lineNumber: 652,
+                                                        lineNumber: 657,
                                                         columnNumber: 33
-                                                    }, this),
+                                                    }, ("TURBOPACK compile-time value", void 0)),
                                                     " Select File"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 651,
+                                                lineNumber: 656,
                                                 columnNumber: 29
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                 type: "file",
                                                 ref: fileRef,
@@ -2070,21 +2149,21 @@ function GalleryManager() {
                                                 onChange: handleFileUpload
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 654,
+                                                lineNumber: 659,
                                                 columnNumber: 29
-                                            }, this)
+                                            }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 649,
+                                        lineNumber: 654,
                                         columnNumber: 25
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 643,
+                                lineNumber: 648,
                                 columnNumber: 21
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             url && url.startsWith('data:') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "relative w-24 h-24 rounded-xl overflow-hidden border border-primary/30",
                                 children: [
@@ -2093,9 +2172,9 @@ function GalleryManager() {
                                         className: "w-full h-full object-cover"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 659,
+                                        lineNumber: 664,
                                         columnNumber: 29
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         onClick: ()=>setUrl(""),
                                         className: "absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5",
@@ -2103,20 +2182,20 @@ function GalleryManager() {
                                             className: "w-3 h-3"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                            lineNumber: 661,
+                                            lineNumber: 666,
                                             columnNumber: 33
-                                        }, this)
+                                        }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 660,
+                                        lineNumber: 665,
                                         columnNumber: 29
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 658,
+                                lineNumber: 663,
                                 columnNumber: 25
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                 className: "input-dental",
                                 placeholder: "Caption (optional)",
@@ -2124,9 +2203,9 @@ function GalleryManager() {
                                 onChange: (e)=>setCaption(e.target.value)
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 665,
+                                lineNumber: 670,
                                 columnNumber: 21
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 onClick: handleAdd,
                                 disabled: !url || uploading,
@@ -2136,34 +2215,34 @@ function GalleryManager() {
                                         className: "w-4 h-4 animate-spin"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 667,
+                                        lineNumber: 672,
                                         columnNumber: 38
-                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
+                                    }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 667,
+                                        lineNumber: 672,
                                         columnNumber: 85
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     "Add to Gallery"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 666,
+                                lineNumber: 671,
                                 columnNumber: 21
-                            }, this)
+                            }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 642,
+                        lineNumber: 647,
                         columnNumber: 17
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 638,
+                lineNumber: 643,
                 columnNumber: 13
-            }, this),
+            }, ("TURBOPACK compile-time value", void 0)),
             loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "grid grid-cols-2 lg:grid-cols-3 gap-4",
                 children: [
@@ -2174,14 +2253,14 @@ function GalleryManager() {
                         className: "aspect-square rounded-2xl bg-muted animate-pulse"
                     }, i, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 675,
+                        lineNumber: 680,
                         columnNumber: 41
-                    }, this))
+                    }, ("TURBOPACK compile-time value", void 0)))
             }, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 674,
+                lineNumber: 679,
                 columnNumber: 17
-            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "grid grid-cols-2 lg:grid-cols-3 gap-4",
                 children: images.map((img)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "group relative rounded-2xl overflow-hidden border border-border",
@@ -2192,9 +2271,9 @@ function GalleryManager() {
                                 className: "w-full aspect-square object-cover"
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 681,
+                                lineNumber: 686,
                                 columnNumber: 29
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center",
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2204,42 +2283,42 @@ function GalleryManager() {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 684,
+                                        lineNumber: 689,
                                         columnNumber: 37
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                    lineNumber: 683,
+                                    lineNumber: 688,
                                     columnNumber: 33
-                                }, this)
+                                }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 682,
+                                lineNumber: 687,
                                 columnNumber: 29
-                            }, this)
+                            }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, img._id, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 680,
+                        lineNumber: 685,
                         columnNumber: 25
-                    }, this))
+                    }, ("TURBOPACK compile-time value", void 0)))
             }, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 678,
+                lineNumber: 683,
                 columnNumber: 17
-            }, this)
+            }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-        lineNumber: 632,
+        lineNumber: 637,
         columnNumber: 9
-    }, this);
-}
-_s3(GalleryManager, "mjT5SevySowb/4onbFdPd+DuLvE=");
+    }, ("TURBOPACK compile-time value", void 0));
+}, "qRVn/vB+NVLVe1FgaIOGSyktAw0="));
 _c5 = GalleryManager;
+GalleryManager.displayName = "GalleryManager";
 // --- Reviews Manager ---
-function ReviewsManager() {
-    _s4();
+const ReviewsManager = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["memo"])(_s5(()=>{
+    _s5();
     const [reviews, setReviews] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [saving, setSaving] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
@@ -2256,21 +2335,25 @@ function ReviewsManager() {
         "General",
         "Full Mouth Rehab"
     ];
+    const fetchReviews = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "ReviewsManager.useCallback[fetchReviews]": async ()=>{
+            setLoading(true);
+            const { data } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$integrations$2f$mongodb$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["findMany"])("video_reviews", {}, {
+                sort: {
+                    created_at: -1
+                }
+            });
+            if (data) setReviews(data);
+            setLoading(false);
+        }
+    }["ReviewsManager.useCallback[fetchReviews]"], []);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "ReviewsManager.useEffect": ()=>{
             fetchReviews();
         }
-    }["ReviewsManager.useEffect"], []);
-    const fetchReviews = async ()=>{
-        setLoading(true);
-        const { data } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$integrations$2f$mongodb$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["findMany"])("video_reviews", {}, {
-            sort: {
-                created_at: -1
-            }
-        });
-        if (data) setReviews(data);
-        setLoading(false);
-    };
+    }["ReviewsManager.useEffect"], [
+        fetchReviews
+    ]);
     const handleAdd = async ()=>{
         if (!newReview.clientName || !newReview.videoUrl) return;
         setSaving(true);
@@ -2294,7 +2377,7 @@ function ReviewsManager() {
         fetchReviews();
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "space-y-6",
+        className: "space-y-6 animate-fade-in",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 children: [
@@ -2306,23 +2389,23 @@ function ReviewsManager() {
                         children: "Video Reviews Manager"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 732,
+                        lineNumber: 738,
                         columnNumber: 17
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-sm text-muted-foreground mt-1",
                         children: "Manage video testimonials from your patients. Organise by service category."
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 733,
+                        lineNumber: 739,
                         columnNumber: 17
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 731,
+                lineNumber: 737,
                 columnNumber: 13
-            }, this),
+            }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "card-dental p-6 border-2",
                 style: {
@@ -2339,16 +2422,16 @@ function ReviewsManager() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 738,
+                                lineNumber: 744,
                                 columnNumber: 21
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             " Add New Video Review"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 737,
+                        lineNumber: 743,
                         columnNumber: 17
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "grid grid-cols-1 md:grid-cols-2 gap-4 mb-4",
                         children: [
@@ -2359,9 +2442,9 @@ function ReviewsManager() {
                                         children: "Patient/Client Name"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 742,
+                                        lineNumber: 748,
                                         columnNumber: 25
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                         className: "input-dental",
                                         placeholder: "e.g. John Doe",
@@ -2372,15 +2455,15 @@ function ReviewsManager() {
                                             })
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 743,
+                                        lineNumber: 749,
                                         columnNumber: 25
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 741,
+                                lineNumber: 747,
                                 columnNumber: 21
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -2388,9 +2471,9 @@ function ReviewsManager() {
                                         children: "Category"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 747,
+                                        lineNumber: 753,
                                         columnNumber: 25
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
                                         className: "input-dental",
                                         value: newReview.category,
@@ -2403,26 +2486,26 @@ function ReviewsManager() {
                                                 children: c
                                             }, c, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 750,
+                                                lineNumber: 756,
                                                 columnNumber: 50
-                                            }, this))
+                                            }, ("TURBOPACK compile-time value", void 0)))
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 748,
+                                        lineNumber: 754,
                                         columnNumber: 25
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 746,
+                                lineNumber: 752,
                                 columnNumber: 21
-                            }, this)
+                            }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 740,
+                        lineNumber: 746,
                         columnNumber: 17
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "space-y-4",
                         children: [
@@ -2433,9 +2516,9 @@ function ReviewsManager() {
                                         children: "Video URL (YouTube/Direct Link)"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 756,
+                                        lineNumber: 762,
                                         columnNumber: 25
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                         className: "input-dental",
                                         placeholder: "https://youtube.com/watch?v=...",
@@ -2446,15 +2529,15 @@ function ReviewsManager() {
                                             })
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 757,
+                                        lineNumber: 763,
                                         columnNumber: 25
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 755,
+                                lineNumber: 761,
                                 columnNumber: 21
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -2462,9 +2545,9 @@ function ReviewsManager() {
                                         children: "Thumbnail URL (Optional)"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 761,
+                                        lineNumber: 767,
                                         columnNumber: 25
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                         className: "input-dental",
                                         placeholder: "https://...",
@@ -2475,15 +2558,15 @@ function ReviewsManager() {
                                             })
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 762,
+                                        lineNumber: 768,
                                         columnNumber: 25
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 760,
+                                lineNumber: 766,
                                 columnNumber: 21
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 onClick: handleAdd,
                                 disabled: !newReview.clientName || !newReview.videoUrl || saving,
@@ -2493,34 +2576,34 @@ function ReviewsManager() {
                                         className: "w-4 h-4 animate-spin"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 766,
+                                        lineNumber: 772,
                                         columnNumber: 35
-                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
+                                    }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 766,
+                                        lineNumber: 772,
                                         columnNumber: 82
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     "Add Review"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 765,
+                                lineNumber: 771,
                                 columnNumber: 21
-                            }, this)
+                            }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 754,
+                        lineNumber: 760,
                         columnNumber: 17
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 736,
+                lineNumber: 742,
                 columnNumber: 13
-            }, this),
+            }, ("TURBOPACK compile-time value", void 0)),
             loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
                 children: [
@@ -2531,37 +2614,37 @@ function ReviewsManager() {
                         className: "aspect-video rounded-2xl bg-muted animate-pulse"
                     }, i, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 774,
+                        lineNumber: 780,
                         columnNumber: 41
-                    }, this))
+                    }, ("TURBOPACK compile-time value", void 0)))
             }, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 773,
+                lineNumber: 779,
                 columnNumber: 17
-            }, this) : reviews.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            }, ("TURBOPACK compile-time value", void 0)) : reviews.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "card-dental p-10 text-center text-muted-foreground",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$video$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Video$3e$__["Video"], {
                         className: "w-8 h-8 mx-auto mb-2 opacity-40"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 778,
+                        lineNumber: 784,
                         columnNumber: 21
-                    }, this),
+                    }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-sm",
                         children: "No video reviews yet. Add your first patient testimonial."
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 779,
+                        lineNumber: 785,
                         columnNumber: 21
-                    }, this)
+                    }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 777,
+                lineNumber: 783,
                 columnNumber: 17
-            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
                 children: reviews.map((review)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "card-dental overflow-hidden group",
@@ -2575,15 +2658,15 @@ function ReviewsManager() {
                                         className: "w-full h-full object-cover"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 787,
+                                        lineNumber: 793,
                                         columnNumber: 37
-                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$video$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Video$3e$__["Video"], {
+                                    }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$video$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Video$3e$__["Video"], {
                                         className: "w-10 h-10 text-slate-300"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 789,
+                                        lineNumber: 795,
                                         columnNumber: 37
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -2595,19 +2678,19 @@ function ReviewsManager() {
                                                 className: "w-5 h-5 fill-current"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 794,
+                                                lineNumber: 800,
                                                 columnNumber: 41
-                                            }, this)
+                                            }, ("TURBOPACK compile-time value", void 0))
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                            lineNumber: 792,
+                                            lineNumber: 798,
                                             columnNumber: 37
-                                        }, this)
+                                        }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 791,
+                                        lineNumber: 797,
                                         columnNumber: 33
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "absolute top-2 left-2",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2615,20 +2698,20 @@ function ReviewsManager() {
                                             children: review.category
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                            lineNumber: 798,
+                                            lineNumber: 804,
                                             columnNumber: 37
-                                        }, this)
+                                        }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 797,
+                                        lineNumber: 803,
                                         columnNumber: 33
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 785,
+                                lineNumber: 791,
                                 columnNumber: 29
-                            }, this),
+                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "p-4 border-t border-border flex items-center justify-between",
                                 children: [
@@ -2639,23 +2722,23 @@ function ReviewsManager() {
                                                 children: review.clientName
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 803,
+                                                lineNumber: 809,
                                                 columnNumber: 37
-                                            }, this),
+                                            }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5",
                                                 children: "Patient Testimonial"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                                lineNumber: 804,
+                                                lineNumber: 810,
                                                 columnNumber: 37
-                                            }, this)
+                                            }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 802,
+                                        lineNumber: 808,
                                         columnNumber: 33
-                                    }, this),
+                                    }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         onClick: ()=>handleDelete(review._id),
                                         className: "p-2 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors",
@@ -2663,40 +2746,40 @@ function ReviewsManager() {
                                             className: "w-4 h-4"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                            lineNumber: 807,
+                                            lineNumber: 813,
                                             columnNumber: 37
-                                        }, this)
+                                        }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 806,
+                                        lineNumber: 812,
                                         columnNumber: 33
-                                    }, this)
+                                    }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 801,
+                                lineNumber: 807,
                                 columnNumber: 29
-                            }, this)
+                            }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, review._id, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 784,
+                        lineNumber: 790,
                         columnNumber: 25
-                    }, this))
+                    }, ("TURBOPACK compile-time value", void 0)))
             }, void 0, false, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 782,
+                lineNumber: 788,
                 columnNumber: 17
-            }, this)
+            }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-        lineNumber: 730,
+        lineNumber: 736,
         columnNumber: 9
-    }, this);
-}
-_s4(ReviewsManager, "kQMC4yGjat9CvedfyDBFtIJ/hdk=");
+    }, ("TURBOPACK compile-time value", void 0));
+}, "JSVkYK2JXkFxkdPGs1huOOv6fCw="));
 _c6 = ReviewsManager;
+ReviewsManager.displayName = "ReviewsManager";
 const navItems = [
     {
         id: "dashboard",
@@ -2705,7 +2788,7 @@ const navItems = [
             className: "w-4 h-4"
         }, void 0, false, {
             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-            lineNumber: 819,
+            lineNumber: 826,
             columnNumber: 50
         }, ("TURBOPACK compile-time value", void 0))
     },
@@ -2716,7 +2799,7 @@ const navItems = [
             className: "w-4 h-4"
         }, void 0, false, {
             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-            lineNumber: 820,
+            lineNumber: 827,
             columnNumber: 56
         }, ("TURBOPACK compile-time value", void 0))
     },
@@ -2727,7 +2810,7 @@ const navItems = [
             className: "w-4 h-4"
         }, void 0, false, {
             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-            lineNumber: 821,
+            lineNumber: 828,
             columnNumber: 56
         }, ("TURBOPACK compile-time value", void 0))
     },
@@ -2738,7 +2821,7 @@ const navItems = [
             className: "w-4 h-4"
         }, void 0, false, {
             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-            lineNumber: 822,
+            lineNumber: 829,
             columnNumber: 40
         }, ("TURBOPACK compile-time value", void 0))
     },
@@ -2749,7 +2832,7 @@ const navItems = [
             className: "w-4 h-4"
         }, void 0, false, {
             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-            lineNumber: 823,
+            lineNumber: 830,
             columnNumber: 46
         }, ("TURBOPACK compile-time value", void 0))
     },
@@ -2760,13 +2843,13 @@ const navItems = [
             className: "w-4 h-4"
         }, void 0, false, {
             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-            lineNumber: 824,
+            lineNumber: 831,
             columnNumber: 46
         }, ("TURBOPACK compile-time value", void 0))
     }
 ];
 function AdminDashboard() {
-    _s5();
+    _s6();
     const [activeTab, setActiveTab] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("dashboard");
     const [sidebarOpen, setSidebarOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [appointments, setAppointments] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
@@ -2868,12 +2951,12 @@ function AdminDashboard() {
                                         className: "w-5 h-5 text-white"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 904,
+                                        lineNumber: 911,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                    lineNumber: 903,
+                                    lineNumber: 910,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2886,7 +2969,7 @@ function AdminDashboard() {
                                             children: "Tooth World"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                            lineNumber: 907,
+                                            lineNumber: 914,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2894,24 +2977,24 @@ function AdminDashboard() {
                                             children: "Admin Panel"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                            lineNumber: 908,
+                                            lineNumber: 915,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                    lineNumber: 906,
+                                    lineNumber: 913,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                            lineNumber: 902,
+                            lineNumber: 909,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 901,
+                        lineNumber: 908,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
@@ -2928,25 +3011,25 @@ function AdminDashboard() {
                                         children: item.label
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 918,
+                                        lineNumber: 925,
                                         columnNumber: 29
                                     }, this),
                                     activeTab !== item.id && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__["ChevronRight"], {
                                         className: "w-3.5 h-3.5 ml-auto opacity-40"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 919,
+                                        lineNumber: 926,
                                         columnNumber: 55
                                     }, this)
                                 ]
                             }, item.id, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 915,
+                                lineNumber: 922,
                                 columnNumber: 25
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 913,
+                        lineNumber: 920,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2959,25 +3042,25 @@ function AdminDashboard() {
                                     className: "w-4 h-4"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                    lineNumber: 926,
+                                    lineNumber: 933,
                                     columnNumber: 25
                                 }, this),
                                 " Sign Out"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                            lineNumber: 925,
+                            lineNumber: 932,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 924,
+                        lineNumber: 931,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 898,
+                lineNumber: 905,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2999,12 +3082,12 @@ function AdminDashboard() {
                                             className: "w-5 h-5"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                            lineNumber: 934,
+                                            lineNumber: 941,
                                             columnNumber: 107
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 934,
+                                        lineNumber: 941,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -3012,13 +3095,13 @@ function AdminDashboard() {
                                         children: activeTab
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                        lineNumber: 935,
+                                        lineNumber: 942,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 933,
+                                lineNumber: 940,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3029,13 +3112,13 @@ function AdminDashboard() {
                                 children: "AD"
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 937,
+                                lineNumber: 944,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 932,
+                        lineNumber: 939,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -3046,7 +3129,7 @@ function AdminDashboard() {
                                 loading: loading
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 941,
+                                lineNumber: 948,
                                 columnNumber: 51
                             }, this),
                             activeTab === "appointments" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(AppointmentsManager, {
@@ -3055,53 +3138,53 @@ function AdminDashboard() {
                                 onUpdateStatus: updateAppointmentStatus
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 942,
+                                lineNumber: 949,
                                 columnNumber: 54
                             }, this),
                             activeTab === "calendar" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CalendarManager, {
                                 dentists: dentists
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 943,
+                                lineNumber: 950,
                                 columnNumber: 50
                             }, this),
                             activeTab === "blog" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(BlogManager, {
                                 dentists: dentists
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 944,
+                                lineNumber: 951,
                                 columnNumber: 46
                             }, this),
                             activeTab === "gallery" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(GalleryManager, {}, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 945,
+                                lineNumber: 952,
                                 columnNumber: 49
                             }, this),
                             activeTab === "reviews" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ReviewsManager, {}, void 0, false, {
                                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                                lineNumber: 946,
+                                lineNumber: 953,
                                 columnNumber: 49
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                        lineNumber: 940,
+                        lineNumber: 947,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-                lineNumber: 931,
+                lineNumber: 938,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/Desktop/vercel/smile-schedule-dash/src/app/admin/dashboard/page.tsx",
-        lineNumber: 897,
+        lineNumber: 904,
         columnNumber: 9
     }, this);
 }
-_s5(AdminDashboard, "VQo3/rZVTxqETV3uXmz25EW2B6E=", false, function() {
+_s6(AdminDashboard, "VQo3/rZVTxqETV3uXmz25EW2B6E=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$vercel$2f$smile$2d$schedule$2d$dash$2f$src$2f$hooks$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"]
